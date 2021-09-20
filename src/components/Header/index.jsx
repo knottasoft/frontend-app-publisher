@@ -1,12 +1,16 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+
 import qs from 'query-string';
 import { Link } from 'react-router-dom';
 import { redirectToLogout } from '@edx/frontend-platform/auth';
 import { AppContext } from '@edx/frontend-platform/react';
 import { Dropdown, DropdownButton, Hyperlink } from '@edx/paragon';
 
-const Header = ({ darkModeOn, location, toggleDarkMode }) => {
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './Header.messages.js';
+
+const Header = ({ darkModeOn, location, toggleDarkMode, intl }) => {
   const { authenticatedUser } = useContext(AppContext);
 
   if (darkModeOn) {
@@ -29,7 +33,7 @@ const Header = ({ darkModeOn, location, toggleDarkMode }) => {
             </Hyperlink>
           </div>
           <div className="col">
-            <Link to="/">Courses</Link>
+            <Link to="/">{intl.formatMessage(messages['header.courses.link'])}</Link>
           </div>
           {allowDarkModeToggle
             && (
@@ -48,7 +52,7 @@ const Header = ({ darkModeOn, location, toggleDarkMode }) => {
               <Dropdown.Item
                 onClick={() => redirectToLogout(process.env.STUDIO_BASE_URL)}
               >
-                Sign Out
+                {intl.formatMessage(messages['header.dropdown.signout'])}
               </Dropdown.Item>
             </DropdownButton>
           </div>
@@ -59,6 +63,7 @@ const Header = ({ darkModeOn, location, toggleDarkMode }) => {
 };
 
 Header.propTypes = {
+  intl: intlShape.isRequired,
   darkModeOn: PropTypes.bool,
   location: PropTypes.shape({
     search: PropTypes.string,
@@ -72,4 +77,4 @@ Header.defaultProps = {
   toggleDarkMode: () => {},
 };
 
-export default Header;
+export default (injectIntl(Header));

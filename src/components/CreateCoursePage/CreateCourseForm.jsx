@@ -22,6 +22,9 @@ import {
   isSafari, localTimeZone, getDateWithDashes, getOptionsData, parseCourseTypeOptions, parseOptions,
 } from '../../utils';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import createCourseMessages from './CreateCourse.messages.js';
+
 class BaseCreateCourseForm extends React.Component {
   constructor(props) {
     super(props);
@@ -64,7 +67,7 @@ class BaseCreateCourseForm extends React.Component {
   }
 
   processOrganizations(organizations) {
-    let orgSelectList = [{ label: 'Select organization', value: '' }];
+    let orgSelectList = [{ label: this.props.intl.formatMessage(createCourseMessages['create.course.organization.select']), value: '' }];
 
     if (organizations) {
       const newOrgs = organizations.map(org => (
@@ -78,6 +81,7 @@ class BaseCreateCourseForm extends React.Component {
 
   render() {
     const {
+      intl,
       currentFormValues,
       handleSubmit,
       organizations,
@@ -99,14 +103,14 @@ class BaseCreateCourseForm extends React.Component {
 
     return (
       <div className="create-course-form">
-        <h2>Create New Course</h2>
+        <h2>{intl.formatMessage(createCourseMessages['create.course.form.header'])}</h2>
         <hr />
         <form onSubmit={handleSubmit}>
           <Field
             name="org"
             component={RenderSelectField}
             options={this.processOrganizations(organizations)}
-            label={<FieldLabel text="Organization" required />}
+            label={<FieldLabel text={intl.formatMessage(createCourseMessages['create.course.organization'])} required />}
             required
           />
           <Field
@@ -116,7 +120,7 @@ class BaseCreateCourseForm extends React.Component {
             label={(
               <FieldLabel
                 id="title-label"
-                text="Title"
+                text={intl.formatMessage(createCourseMessages['create.course.title'])}
                 required
                 helpText={titleHelp}
               />
@@ -130,9 +134,9 @@ class BaseCreateCourseForm extends React.Component {
             label={(
               <FieldLabel
                 id="number-label"
-                text="Number"
+                text={intl.formatMessage(createCourseMessages['create.course.number'])}
                 required
-                extraText="Cannot edit after submission"
+                extraText={intl.formatMessage(createCourseMessages['create.course.number.extra'])}
                 helpText={(
                   <div>
                     <p>
@@ -170,7 +174,7 @@ class BaseCreateCourseForm extends React.Component {
             label={(
               <FieldLabel
                 id="course-type-label"
-                text="Course enrollment track"
+                text={intl.formatMessage(createCourseMessages['create.course.enrollment_track'])}
                 required
                 helpText={typeHelp}
               />
@@ -181,7 +185,7 @@ class BaseCreateCourseForm extends React.Component {
             priceLabels={currentFormValues.type ? priceLabels[currentFormValues.type] : {}}
             required
           />
-          <h2>First run of your Course</h2>
+          <h2>{intl.formatMessage(createCourseMessages['create.course.first_run.header'])}</h2>
           <hr />
           {canSetRunKey
             && (
@@ -209,8 +213,8 @@ class BaseCreateCourseForm extends React.Component {
                   name="start"
                   type="text"
                   component={DateTimeField}
-                  dateLabel="Start date"
-                  timeLabel={`Start time (${localTimeZone})`}
+                  dateLabel={intl.formatMessage(createCourseMessages['create.course.first_run.start.date'])}
+                  timeLabel={intl.formatMessage(createCourseMessages['create.course.first_run.start.time'], { timeZone: localTimeZone }) }
                   helpText={startDateHelp}
                   required
                   maxLength="10"
@@ -221,8 +225,8 @@ class BaseCreateCourseForm extends React.Component {
                   name="end"
                   type="text"
                   component={DateTimeField}
-                  dateLabel="End date"
-                  timeLabel={`End time (${localTimeZone})`}
+                  dateLabel={intl.formatMessage(createCourseMessages['create.course.first_run.end.date'])}
+                  timeLabel={intl.formatMessage(createCourseMessages['create.course.first_run.end.time'], { timeZone: localTimeZone }) }
                   helpText={endDateHelp}
                   required
                   maxLength="10"
@@ -238,8 +242,8 @@ class BaseCreateCourseForm extends React.Component {
                   name="start"
                   type="date"
                   component={DateTimeField}
-                  dateLabel="Start date"
-                  timeLabel={`Start time (${localTimeZone})`}
+                  dateLabel={intl.formatMessage(createCourseMessages['create.course.first_run.start.date'])}
+                  timeLabel={intl.formatMessage(createCourseMessages['create.course.first_run.start.time'], { timeZone: localTimeZone }) }
                   helpText={startDateHelp}
                   required
                   minDate={getDateWithDashes(moment())}
@@ -248,8 +252,8 @@ class BaseCreateCourseForm extends React.Component {
                   name="end"
                   type="date"
                   component={DateTimeField}
-                  dateLabel="End date"
-                  timeLabel={`End time (${localTimeZone})`}
+                  dateLabel={intl.formatMessage(createCourseMessages['create.course.first_run.end.date'])}
+                  timeLabel={intl.formatMessage(createCourseMessages['create.course.first_run.end.time'], { timeZone: localTimeZone }) }
                   helpText={endDateHelp}
                   required
                   minDate={getDateWithDashes(moment(currentFormValues.start).add(1, 'd') || moment())}
@@ -259,11 +263,14 @@ class BaseCreateCourseForm extends React.Component {
           <Field
             name="run_type"
             component={RenderSelectField}
-            options={currentFormValues.type ? courseRunTypeOptions[currentFormValues.type] : [{ label: 'Select Course enrollment track first', value: '' }]}
+            options={currentFormValues.type ? courseRunTypeOptions[currentFormValues.type] : [{
+              label: intl.formatMessage(createCourseMessages['create.course.first_run.enrollment_track.label']),
+              value: '' }
+            ]}
             label={(
               <FieldLabel
                 id="course-run-type-label"
-                text="Course run enrollment track"
+                text={intl.formatMessage(createCourseMessages['create.course.first_run.enrollment_track'])}
                 required
                 helpText={runTypeHelp}
               />
@@ -278,7 +285,7 @@ class BaseCreateCourseForm extends React.Component {
             label={(
               <FieldLabel
                 id="pacing_type.label"
-                text="Course pacing"
+                text={intl.formatMessage(createCourseMessages['create.course.first_run.pacing'])}
                 helpText={pacingHelp}
               />
             )}
@@ -290,14 +297,14 @@ class BaseCreateCourseForm extends React.Component {
                 className="btn btn-outline-primary"
                 disabled={isCreating}
               >
-                Cancel
+                {intl.formatMessage(createCourseMessages['create.course.cancel_button'])}
               </button>
             </Link>
             <ActionButton
               disabled={pristine}
               labels={{
-                default: 'Create',
-                pending: 'Creating',
+                default: intl.formatMessage(createCourseMessages['create.course.create_button']),
+                pending: intl.formatMessage(createCourseMessages['create.course.creating']),
               }}
               state={isCreating ? 'pending' : 'default'}
             />
@@ -316,6 +323,7 @@ BaseCreateCourseForm.defaultProps = {
 };
 
 BaseCreateCourseForm.propTypes = {
+  intl: intlShape.isRequired,
   change: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.shape({ // eslint-disable-line react/no-unused-prop-types
@@ -352,5 +360,5 @@ BaseCreateCourseForm.propTypes = {
 
 export default reduxForm({
   form: 'create-course-form',
-})(BaseCreateCourseForm);
+})(injectIntl(BaseCreateCourseForm));
 export { BaseCreateCourseForm };

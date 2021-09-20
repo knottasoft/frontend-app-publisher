@@ -7,6 +7,9 @@ import StatusAlert from '../StatusAlert';
 import LoadingSpinner from '../LoadingSpinner';
 import PageContainer from '../PageContainer';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './StafferForm.messages.js';
+
 class StafferPage extends React.Component {
   constructor(props) {
     super(props);
@@ -101,6 +104,7 @@ class StafferPage extends React.Component {
 
   render() {
     const {
+      intl,
       stafferInfo,
       sourceInfo,
     } = this.props;
@@ -110,8 +114,8 @@ class StafferPage extends React.Component {
         <StatusAlert
           id="error"
           alertType="danger"
-          title="Could not load page"
-          message="Could not get instructor information"
+          title={intl.formatMessage(messages['staffer.alert.status.error.title'])}
+          message={intl.formatMessage(messages['staffer.alert.status.error.message'])}
         />
       );
     }
@@ -121,7 +125,9 @@ class StafferPage extends React.Component {
     const showSpinner = !showForm;
     const isCreateForm = !this.props.editStaffer;
 
-    const titleText = isCreateForm ? 'Create New Instructor' : 'Edit Instructor';
+    const titleText = isCreateForm ?
+        intl.formatMessage(messages['staffer.title.create']) :
+        intl.formatMessage(messages['staffer.title.edit']);
     const handleSubmit = (isCreateForm
       ? this.handleStafferCreate
       : this.handleStafferEdit);
@@ -153,7 +159,7 @@ class StafferPage extends React.Component {
             <StatusAlert
               id="sent-from-edit-course-info"
               alertType="info"
-              message="The data you entered on the course edit screen is saved. You will return to that page when you have finished updating instructor information."
+              message={intl.formatMessage(messages['staffer.alert.status.sent-from-edit-course-info.message'])}
               dismissible
             />
             )}
@@ -194,6 +200,7 @@ StafferPage.defaultProps = {
 };
 
 StafferPage.propTypes = {
+  intl: intlShape.isRequired,
   createStaffer: PropTypes.func,
   editStaffer: PropTypes.func,
   fetchStafferInfo: PropTypes.func,
@@ -208,4 +215,4 @@ StafferPage.propTypes = {
   }),
 };
 
-export default StafferPage;
+export default injectIntl(StafferPage);

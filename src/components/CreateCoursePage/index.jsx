@@ -10,6 +10,9 @@ import ConfirmationModal from '../ConfirmationModal';
 
 import { formatPriceData } from '../../utils';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import createCourseMessages from './CreateCourse.messages.js';
+
 class CreateCoursePage extends React.Component {
   constructor(props) {
     super(props);
@@ -97,13 +100,14 @@ class CreateCoursePage extends React.Component {
         <StatusAlert
           id="error"
           alertType="danger"
-          title="Course Create Form failed to load: "
-          message="User information unavailable"
+          title={this.props.intl.formatMessage(createCourseMessages['create.course.alert.user_info.title'])}
+          message={this.props.intl.formatMessage(createCourseMessages['create.course.alert.user_info.message'])}
         />
       );
     }
 
     const {
+      intl,
       initialValues,
       courseInfo,
       publisherUserInfo,
@@ -146,13 +150,13 @@ class CreateCoursePage extends React.Component {
     return (
       <>
         <Helmet>
-          <title>Create a New Course</title>
+          <title>{intl.formatMessage(createCourseMessages['create.course.form.header'])}</title>
         </Helmet>
 
         <ConfirmationModal
-          title="Create a New Course?"
-          body="This will create a new course in studio. Confirm that your course number is correct, as it cannot be changed later."
-          buttonLabel="Create"
+          title={intl.formatMessage(createCourseMessages['create.course.confirmation.title'])}
+          body={intl.formatMessage(createCourseMessages['create.course.confirmation.body'])}
+          buttonLabel={intl.formatMessage(createCourseMessages['create.course.confirmation.create_button'])}
           open={createConfirmVisible}
           onSubmit={this.continueCreate}
           onClose={this.cancelCreate}
@@ -206,6 +210,7 @@ CreateCoursePage.defaultProps = {
 };
 
 CreateCoursePage.propTypes = {
+  intl: intlShape.isRequired,
   initialValues: PropTypes.shape({ // eslint-disable-line react/no-unused-prop-types
     org: PropTypes.string,
     title: PropTypes.string,
@@ -247,4 +252,4 @@ CreateCoursePage.propTypes = {
   clearCreateCourseStatus: PropTypes.func,
 };
 
-export default CreateCoursePage;
+export default (injectIntl(CreateCoursePage));

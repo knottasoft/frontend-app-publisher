@@ -19,7 +19,11 @@ import {
 } from '../../utils';
 import { DATE_INPUT_PATTERN } from '../../data/constants';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './CreateCourseRun.messages.js';
+
 const BaseCreateCourseRunForm = ({
+  intl,
   handleSubmit,
   pristine,
   isCreating,
@@ -36,9 +40,12 @@ const BaseCreateCourseRunForm = ({
   const pacingTypeOptions = courseRunOptionsData && parseOptions(choices);
   return (
     <div className="create-course-run-form">
-      <h2>Create a new course run</h2>
+      <h2>{intl.formatMessage(messages['course-run.create.form.header'])}</h2>
       <hr />
-      <FieldLabel text="Course" className="mb-2" />
+      <FieldLabel
+          text={intl.formatMessage(messages['course-run.create.form.course.title'])}
+          className="mb-2"
+      />
       <div className="mb-3">
         <Link to={`/courses/${uuid}`}>
           {title}
@@ -53,7 +60,7 @@ const BaseCreateCourseRunForm = ({
           label={(
             <FieldLabel
               id="rerun.label"
-              text="Select a run to copy"
+              text={intl.formatMessage(messages['course-run.create.form.rerun.label'])}
               helpText={(
                 <div>
                   <p>
@@ -75,7 +82,7 @@ const BaseCreateCourseRunForm = ({
           label={(
             <FieldLabel
               id="courseRunKey-label"
-              text="Run Key"
+              text={intl.formatMessage(messages['course-run.create.form.courseRunKey.label'])}
               helpText={keyHelp}
               optional
             />
@@ -91,8 +98,8 @@ const BaseCreateCourseRunForm = ({
                 name="start"
                 type="text"
                 component={DateTimeField}
-                dateLabel="Start date"
-                timeLabel={`Start time (${localTimeZone})`}
+                dateLabel={intl.formatMessage(messages['course-run.create.form.start-date.label'])}
+                timeLabel={intl.formatMessage(messages['course-run.create.form.start-time.label'], {localTimeZone: localTimeZone})}
                 helpText={startDateHelp}
                 required
                 maxLength="10"
@@ -103,8 +110,8 @@ const BaseCreateCourseRunForm = ({
                 name="end"
                 type="text"
                 component={DateTimeField}
-                dateLabel="End date"
-                timeLabel={`End time (${localTimeZone})`}
+                dateLabel={intl.formatMessage(messages['course-run.create.form.end-date.label'])}
+                timeLabel={intl.formatMessage(messages['course-run.create.form.end-time.label'], {localTimeZone: localTimeZone})}
                 helpText={endDateHelp}
                 required
                 maxLength="10"
@@ -120,8 +127,8 @@ const BaseCreateCourseRunForm = ({
                 name="start"
                 type="date"
                 component={DateTimeField}
-                dateLabel="Start date"
-                timeLabel={`Start time (${localTimeZone})`}
+                dateLabel={intl.formatMessage(messages['course-run.create.form.start-date.label'])}
+                timeLabel={intl.formatMessage(messages['course-run.create.form.start-time.label'], {localTimeZone: localTimeZone})}
                 helpText={startDateHelp}
                 required
                 minDate={getDateWithDashes(moment())}
@@ -130,8 +137,8 @@ const BaseCreateCourseRunForm = ({
                 name="end"
                 type="date"
                 component={DateTimeField}
-                dateLabel="End date"
-                timeLabel={`End time (${localTimeZone})`}
+                dateLabel={intl.formatMessage(messages['course-run.create.form.end-date.label'])}
+                timeLabel={intl.formatMessage(messages['course-run.create.form.end-time.label'], {localTimeZone: localTimeZone})}
                 helpText={endDateHelp}
                 required
                 minDate={getDateWithDashes(moment(currentFormValues.start).add(1, 'd') || moment())}
@@ -145,7 +152,7 @@ const BaseCreateCourseRunForm = ({
           label={(
             <FieldLabel
               id="run_type.label"
-              text="Course run enrollment track"
+              text={intl.formatMessage(messages['course-run.create.form.run_type.label'])}
               required
               helpText={runTypeHelp}
             />
@@ -160,7 +167,7 @@ const BaseCreateCourseRunForm = ({
           label={(
             <FieldLabel
               id="pacing_type.label"
-              text="Course pacing"
+              text={intl.formatMessage(messages['course-run.create.form.pacing_type.label'])}
               helpText={pacingHelp}
             />
           )}
@@ -172,14 +179,14 @@ const BaseCreateCourseRunForm = ({
               className="btn btn-outline-primary"
               disabled={isCreating}
             >
-              Cancel
+                {intl.formatMessage(messages['course-run.create.form.button.cancel'])}
             </button>
           </Link>
           <ActionButton
             disabled={pristine}
             labels={{
-              default: 'Create',
-              pending: 'Creating',
+              default: intl.formatMessage(messages['course-run.create.form.button.create']),
+              pending: intl.formatMessage(messages['course-run.create.form.button.pending']),
             }}
             state={isCreating ? 'pending' : 'default'}
           />
@@ -197,6 +204,7 @@ BaseCreateCourseRunForm.defaultProps = {
 };
 
 BaseCreateCourseRunForm.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
@@ -217,5 +225,6 @@ BaseCreateCourseRunForm.propTypes = {
 
 const CreateCourseRunForm = reduxForm({
   form: 'create-course-run-form',
-})(BaseCreateCourseRunForm);
+})(injectIntl(BaseCreateCourseRunForm));
+
 export { BaseCreateCourseRunForm, CreateCourseRunForm };

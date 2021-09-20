@@ -6,8 +6,12 @@ import CourseRunSubmitButton from './CourseRunSubmitButton';
 
 import { PUBLISHED, UNPUBLISHED } from '../../data/constants';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './CourseRunButtonToolbar.messages.js';
+
 function CourseRunButtonToolbar(props) {
   const {
+    intl,
     className,
     disabled,
     editable,
@@ -28,7 +32,7 @@ function CourseRunButtonToolbar(props) {
     }
     return (
       <div className="font-italic text-center">
-        To publish changes, click ‘Save & Re-Publish’ below.
+        {intl.formatMessage(messages['course-run.edit.button-toolbar.published'])}
       </div>
     );
   }
@@ -47,6 +51,7 @@ function CourseRunButtonToolbar(props) {
 }
 
 CourseRunButtonToolbar.propTypes = {
+  intl: intlShape.isRequired,
   className: PropTypes.string,
   disabled: PropTypes.bool,
   editable: PropTypes.bool,
@@ -68,4 +73,4 @@ CourseRunButtonToolbar.defaultProps = {
   submitting: false,
 };
 
-export default CourseRunButtonToolbar;
+export default (injectIntl(CourseRunButtonToolbar));

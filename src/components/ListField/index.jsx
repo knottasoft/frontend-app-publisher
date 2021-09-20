@@ -7,6 +7,9 @@ import store from '../../data/store';
 import sourceInfo from '../../data/actions/sourceInfo';
 import StatusAlert from '../StatusAlert';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './ListField.messages.js';
+
 class ListField extends React.Component {
   constructor(props) {
     super(props);
@@ -226,7 +229,11 @@ class ListField extends React.Component {
         </DragDropContext>
         {/* eslint-disable jsx-a11y/label-has-associated-control,jsx-a11y/no-noninteractive-element-interactions */}
         <label className="w-100" id={`label-${itemType}-search`} htmlFor={`${itemType}-search`} onKeyDown={this.handleAutosuggestEnterEvent}>
-          <strong>{`Search or add new ${itemType}:`}</strong>
+          <strong>{this.props.intl.formatMessage(
+              messages['course.edit.form.collaborators.list_field'],
+              {itemType: itemType}
+          )}
+          </strong>
           <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -246,6 +253,7 @@ class ListField extends React.Component {
 }
 
 ListField.propTypes = {
+  intl: intlShape.isRequired,
   renderSuggestion: PropTypes.func.isRequired,
   fetchSuggestions: PropTypes.func.isRequired,
   createNewUrl: PropTypes.string.isRequired,
@@ -283,4 +291,4 @@ ListField.defaultProps = {
   sourceInfo: {},
 };
 
-export default ListField;
+export default (injectIntl(ListField));

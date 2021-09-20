@@ -1,5 +1,6 @@
 import 'core-js';
 import 'regenerator-runtime/runtime';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -8,7 +9,10 @@ import {
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage } from '@edx/frontend-platform/react';
 import { ConnectedRouter } from 'connected-react-router';
+
 import { messages as footerMessages } from '@edx/frontend-component-footer-edx';
+import appMessages from './i18n';
+
 import './sass/App.scss';
 
 import store from './data/store';
@@ -17,11 +21,11 @@ import history from './data/history';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(
-    <AppProvider store={store}>
-      <ConnectedRouter history={history}>
-        <MainApp />
-      </ConnectedRouter>
-    </AppProvider>,
+        <AppProvider store={store}>
+          <ConnectedRouter history={history}>
+            <MainApp />
+          </ConnectedRouter>
+        </AppProvider>,
     document.getElementById('root'),
   );
 });
@@ -32,7 +36,8 @@ subscribe(APP_INIT_ERROR, (error) => {
 
 initialize({
   messages: [
-    footerMessages,
+      appMessages,
+      footerMessages,
   ],
   requireAuthenticatedUser: true,
 });
