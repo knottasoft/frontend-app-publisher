@@ -11,32 +11,35 @@ import {
   ARCHIVED,
 } from '../../data/constants';
 
-const Pill = ({ statuses }) => {
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './Pill.messages.js';
+
+const Pill = ({ statuses, intl }) => {
   const pills = [];
   statuses.forEach((status) => {
     switch (status) {
       case ARCHIVED:
         pills.push({
-          text: 'Archived',
+          text: intl.formatMessage(messages['pill.status.archived']),
           className: 'badge badge-light',
         });
         break;
       case UNPUBLISHED:
         pills.push({
-          text: 'Unsubmitted',
+          text: intl.formatMessage(messages['pill.status.unsubmitted']),
           className: 'badge badge-warning',
         });
         break;
       case REVIEWED:
         pills.push({
-          text: 'Scheduled',
+          text: intl.formatMessage(messages['pill.status.scheduled']),
           className: 'badge badge-primary',
         });
         break;
       case REVIEW_BY_LEGAL:
       case REVIEW_BY_INTERNAL:
         pills.push({
-          text: 'In review',
+          text: intl.formatMessage(messages['pill.status.in_review']),
           className: 'badge badge-light',
         });
         pills.push({
@@ -45,7 +48,7 @@ const Pill = ({ statuses }) => {
         break;
       case PUBLISHED:
         pills.push({
-          text: 'Published',
+          text: intl.formatMessage(messages['pill.status.published']),
           className: 'badge badge-success',
         });
         break;
@@ -61,7 +64,8 @@ const Pill = ({ statuses }) => {
 };
 
 Pill.propTypes = {
+  intl: intlShape.isRequired,
   statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default Pill;
+export default (injectIntl(Pill));

@@ -13,7 +13,11 @@ import FieldLabel from '../FieldLabel';
 import ButtonToolbar from '../ButtonToolbar';
 import { basicValidate } from '../../utils/validation';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './StafferForm.messages.js';
+
 const BaseStafferForm = ({
+  intl,
   handleSubmit,
   pristine,
   isSaving,
@@ -33,7 +37,7 @@ const BaseStafferForm = ({
           label={(
             <FieldLabel
               id="image.label"
-              text="Image"
+              text={intl.formatMessage(messages['staffer.form.image.label'])}
               helpText={(
                 <div>
                   <p>Image Requirements:</p>
@@ -43,7 +47,7 @@ const BaseStafferForm = ({
                   </ul>
                 </div>
               )}
-              extraText="Image must be 110x110 pixels in size."
+              extraText={intl.formatMessage(messages['staffer.form.image.extra'])}
             />
           )}
           id="profile_image"
@@ -57,14 +61,22 @@ const BaseStafferForm = ({
           name="given_name"
           component={RenderInputTextField}
           type="text"
-          label={<FieldLabel text="First name" />}
+          label={
+              <FieldLabel
+                  text={intl.formatMessage(messages['staffer.form.given_name'])}
+              />
+          }
           required
         />
         <Field
           name="family_name"
           component={RenderInputTextField}
           type="text"
-          label={<FieldLabel text="Last name" />}
+          label={
+              <FieldLabel
+                  text={intl.formatMessage(messages['staffer.form.family_name'])}
+              />
+          }
           required
         />
         <Field
@@ -74,7 +86,7 @@ const BaseStafferForm = ({
           label={(
             <FieldLabel
               id="title.label"
-              text="Title"
+              text={intl.formatMessage(messages['staffer.form.position.title'])}
               helpText={(
                 <div>
                   <p>Instructor&apos;s title at your organization.</p>
@@ -94,14 +106,22 @@ const BaseStafferForm = ({
           name="position.organization_override"
           component={RenderInputTextField}
           type="text"
-          label={<FieldLabel text="Organization" />}
+          label={
+              <FieldLabel
+                  text={intl.formatMessage(messages['staffer.form.position.organization_override'])}
+              />
+          }
           extraInput={{ value: organizationName }}
           required
         />
         <Field
           name="bio"
           component={RichEditor}
-          label={<FieldLabel text="Biography" />}
+          label={
+              <FieldLabel
+                  text={intl.formatMessage(messages['staffer.form.bio'])}
+              />
+          }
           maxChars={250}
           validate={basicValidate}
           id="bio"
@@ -109,16 +129,29 @@ const BaseStafferForm = ({
         <Field
           name="major_works"
           component={RichEditor}
-          label={<FieldLabel text="Major works" optional />}
+          label={
+              <FieldLabel
+                  text={intl.formatMessage(messages['staffer.form.works'])}
+                  optional
+              />
+          }
           maxChars={250}
           id="works"
         />
-        <FieldLabel text="Social links" className="mb-2" optional />
+        <FieldLabel
+            text={intl.formatMessage(messages['staffer.form.social-links'])}
+            className="mb-2"
+            optional
+        />
         <FieldArray
           name="urls_detailed"
           component={SocialLinks}
         />
-        <FieldLabel text="Areas of expertise" className="mb-2" optional />
+        <FieldLabel
+            text={intl.formatMessage(messages['staffer.form.expertise'])}
+            className="mb-2"
+            optional
+        />
         <FieldArray
           name="areas_of_expertise"
           component={AreasOfExpertise}
@@ -130,16 +163,16 @@ const BaseStafferForm = ({
             disabled={formControlDisabled}
             onClick={cancelStafferInfo}
           >
-            Cancel
+              {intl.formatMessage(messages['staffer.form.button.cancel'])}
           </Link>
           <ActionButton
             disabled={formControlDisabled}
             labels={isCreateForm ? {
-              default: 'Create',
-              pending: 'Creating',
+                default: intl.formatMessage(messages['staffer.form.create.button.create']),
+                pending: intl.formatMessage(messages['staffer.form.create.button.pending']),
             } : {
-              default: 'Save',
-              pending: 'Saving',
+                default: intl.formatMessage(messages['staffer.form.edit.button.create']),
+                pending: intl.formatMessage(messages['staffer.form.edit.button.pending']),
             }}
             state={isSaving ? 'pending' : 'default'}
           />
@@ -150,6 +183,7 @@ const BaseStafferForm = ({
 };
 
 BaseStafferForm.propTypes = {
+  intl: intlShape.isRequired,
   cancelStafferInfo: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   isSaving: PropTypes.bool,
@@ -170,5 +204,6 @@ BaseStafferForm.defaultProps = {
 
 export default reduxForm({
   form: 'staffer-form',
-})(BaseStafferForm);
+})(injectIntl(BaseStafferForm));
+
 export { basicValidate, BaseStafferForm };

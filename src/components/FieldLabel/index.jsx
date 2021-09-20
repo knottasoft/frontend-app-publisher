@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FieldHelp from '../FieldHelp';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './FieldLabel.messages.js';
+
 const FieldLabel = ({
+  intl,
   className,
   extraText,
   helpText,
@@ -13,7 +17,7 @@ const FieldLabel = ({
   let requireText = '';
 
   if (optional) {
-    requireText = <span className="text-info" aria-hidden>   Optional</span>;
+    requireText = <span className="text-info" aria-hidden>{intl.formatMessage(messages['optional'])}</span>;
   }
 
   return (
@@ -35,6 +39,7 @@ FieldLabel.defaultProps = {
 };
 
 FieldLabel.propTypes = {
+  intl: intlShape.isRequired,
   className: PropTypes.string,
   extraText: PropTypes.string,
   helpText: PropTypes.node,
@@ -43,4 +48,4 @@ FieldLabel.propTypes = {
   text: PropTypes.string.isRequired,
 };
 
-export default FieldLabel;
+export default (injectIntl(FieldLabel));

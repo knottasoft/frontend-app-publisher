@@ -6,6 +6,9 @@ import RenderInputTextField from '../RenderInputTextField';
 import RemoveButton from '../RemoveButton';
 import FieldLabel from '../FieldLabel';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './AreasOfExpertise.messages.js';
+
 class AreasOfExpertise extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +21,7 @@ class AreasOfExpertise extends React.Component {
   }
 
   render() {
-    const { fields } = this.props;
+    const { fields, intl } = this.props;
 
     return (
       <div className="areas-of-expertise mb-3">
@@ -30,7 +33,12 @@ class AreasOfExpertise extends React.Component {
                   name={`${expertise}.value`}
                   component={RenderInputTextField}
                   type="text"
-                  label={<FieldLabel text="Area of expertise" required />}
+                  label={
+                      <FieldLabel
+                          text={intl.formatMessage(messages['staffer.expertise.label'])}
+                          required
+                      />
+                  }
                   required
                 />
               </div>
@@ -40,7 +48,7 @@ class AreasOfExpertise extends React.Component {
               />
               <RemoveButton
                 className="col-1"
-                label="Remove area of expertise"
+                label={intl.formatMessage(messages['staffer.expertise.button.remove'])}
                 onRemove={this.handleRemove}
                 targetFieldNumber={index}
               />
@@ -52,7 +60,7 @@ class AreasOfExpertise extends React.Component {
           className="btn btn-outline-primary js-add-button mt-2"
           onClick={() => fields.push({})}
         >
-          Add area of expertise
+            {intl.formatMessage(messages['staffer.expertise.button.add'])}
         </button>
       </div>
     );
@@ -60,7 +68,8 @@ class AreasOfExpertise extends React.Component {
 }
 
 AreasOfExpertise.propTypes = {
+  intl: intlShape.isRequired,
   fields: PropTypes.instanceOf(FieldArray).isRequired,
 };
 
-export default AreasOfExpertise;
+export default injectIntl(AreasOfExpertise);

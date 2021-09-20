@@ -12,6 +12,9 @@ import 'style-loader!tinymce/skins/ui/oxide/skin.min.css'; // eslint-disable-lin
 import '@edx/tinymce-language-selector';
 import StatusAlert from '../StatusAlert';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './RichEditor.messages.js';
+
 class RichEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -40,6 +43,7 @@ class RichEditor extends React.Component {
 
   render() {
     const {
+      intl,
       maxChars,
       id,
       label,
@@ -54,8 +58,10 @@ class RichEditor extends React.Component {
       disabled,
     } = this.props;
     const remainingChars = maxChars - this.state.charCount;
-    const characterLimitMessage = `Recommended character limit (including spaces) is
-      ${maxChars}. ${remainingChars} characters remaining.`;
+    const characterLimitMessage = intl.formatMessage(
+        messages['editor.recommendation'],
+        {maxChars: maxChars, remainingChars: remainingChars}
+    )
 
     return (
       <div className="form-group">
@@ -104,6 +110,7 @@ RichEditor.defaultProps = {
 };
 
 RichEditor.propTypes = {
+  intl: intlShape.isRequired,
   id: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   maxChars: PropTypes.number,
@@ -120,4 +127,4 @@ RichEditor.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export default RichEditor;
+export default (injectIntl(RichEditor));

@@ -7,6 +7,9 @@ import RemoveButton from '../RemoveButton';
 import FieldLabel from '../FieldLabel';
 import StatusAlert from '../StatusAlert';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './TranscriptLanguage.messages.js';
+
 class TranscriptLanguage extends React.Component {
   constructor(props) {
     super(props);
@@ -47,7 +50,12 @@ class TranscriptLanguage extends React.Component {
                   component={RenderSelectField}
                   options={languageOptions}
                   type="text"
-                  label={<FieldLabel text="Transcript language" required />}
+                  label={
+                    <FieldLabel
+                        text={this.props.intl.formatMessage(messages['course-run.edit.transcript-language.label'])}
+                        required
+                    />
+                  }
                   extraInput={{ onInvalid: this.openCollapsible }}
                   disabled={disabled}
                   required
@@ -55,7 +63,7 @@ class TranscriptLanguage extends React.Component {
               </div>
               <RemoveButton
                 className="col-1"
-                label="Remove language"
+                label={this.props.intl.formatMessage(messages['course-run.edit.transcript-language.remove'])}
                 onRemove={this.handleRemove}
                 targetFieldNumber={index}
                 disabled={disabled}
@@ -69,7 +77,7 @@ class TranscriptLanguage extends React.Component {
           onClick={() => fields.push({})}
           disabled={disabled}
         >
-          Add language
+          {this.props.intl.formatMessage(messages['course-run.edit.transcript-language.add'])}
         </button>
       </div>
     );
@@ -77,6 +85,7 @@ class TranscriptLanguage extends React.Component {
 }
 
 TranscriptLanguage.propTypes = {
+  intl: intlShape.isRequired,
   fields: PropTypes.instanceOf(FieldArray).isRequired,
   languageOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
@@ -95,4 +104,4 @@ TranscriptLanguage.defaultProps = {
   extraInput: {},
 };
 
-export default TranscriptLanguage;
+export default (injectIntl(TranscriptLanguage));

@@ -6,6 +6,9 @@ import CollaboratorForm from './CollaboratorForm';
 import StatusAlert from '../StatusAlert';
 import PageContainer from '../PageContainer';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './CollaboratorForm.messages.js';
+
 class CollaboratorPage extends React.Component {
   constructor(props) {
     super(props);
@@ -42,6 +45,7 @@ class CollaboratorPage extends React.Component {
 
   render() {
     const {
+      intl,
       sourceInfo,
       location,
       collaboratorInfo,
@@ -54,13 +58,15 @@ class CollaboratorPage extends React.Component {
         <StatusAlert
           id="error"
           alertType="danger"
-          title="Could not load page: "
-          message="Direct access to collaborators not supported"
+          title={this.props.intl.formatMessage(messages['collaborator.alert.status.error.title'])}
+          message={this.props.intl.formatMessage(messages['collaborator.alert.status.error.message'])}
         />
       );
     }
 
-    const titleText = isCreateForm ? 'Create New Collaborator' : 'Edit Collaborator';
+    const titleText = isCreateForm ?
+        this.props.intl.formatMessage(messages['collaborator.title.create']) :
+        this.props.intl.formatMessage(messages['collaborator.title.edit']);
     const handleSubmit = (isCreateForm
       ? this.handleCollaboratorCreate
       : this.handleCollaboratorEdit);
@@ -90,7 +96,7 @@ class CollaboratorPage extends React.Component {
             <StatusAlert
               id="sent-from-edit-course-info"
               alertType="info"
-              message="The data you entered on the course edit screen is saved. You will return to that page when you have finished updating collaborator information."
+              message={this.props.intl.formatMessage(messages['collaborator.alert.status.sent-from-edit-course-info.message'])}
               dismissible
             />
           )}
@@ -141,6 +147,7 @@ CollaboratorPage.defaultProps = {
 };
 
 CollaboratorPage.propTypes = {
+  intl: intlShape.isRequired,
   createCollaborator: PropTypes.func,
   editCollaborator: PropTypes.func,
   collaboratorInfo: PropTypes.shape({
@@ -161,4 +168,4 @@ CollaboratorPage.propTypes = {
   }),
 };
 
-export default CollaboratorPage;
+export default injectIntl(CollaboratorPage)

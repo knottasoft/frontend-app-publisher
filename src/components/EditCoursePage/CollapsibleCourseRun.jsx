@@ -33,25 +33,28 @@ import { Staffer } from '../Staffer';
 import renderStaffSuggestion from '../Staffer/renderStaffSuggestion';
 import fetchStaffSuggestions from '../Staffer/fetchStaffSuggestions';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './CollapsibleCourseRun.messages.js';
+
 const determineStatus = run => (courseRunIsArchived(run) ? ARCHIVED : run.status);
 
-const formatCourseRunTitle = (courseRun) => {
+const formatCourseRunTitle = (courseRun, intl) => {
   if (courseRun) {
     const labelItems = [];
     let publishDate = '';
     if (courseRun.start) {
-      labelItems.push(formatDate(courseRun.start));
+      labelItems.push(intl.formatDate(formatDate(courseRun.start)));
     }
     if (courseRun.pacing_type) {
       labelItems.push(courseRun.pacing_type.split('_').map(pacingType => pacingType.charAt(0).toUpperCase() + pacingType.slice(1)).join(' '));
     }
     if (courseRun.status !== PUBLISHED && courseRun.go_live_date) {
-      const formattedDate = formatDate(courseRun.go_live_date);
-      publishDate = `Publish date is ${formattedDate}`;
+      const formattedDate = intl.formatDate(formatDate(courseRun.go_live_date));
+      publishDate = intl.formatMessage(messages['course-run.edit.collapsible.title.publish-date'], {formattedDate: formattedDate});
     }
     return (
       <div className="course-run-label">
-        <span>{`Course run starting on ${labelItems.join(' - ')}`}</span>
+        <span>{intl.formatMessage(messages['course-run.edit.collapsible.title.course-run-label'], {labelItems: labelItems.join(' - ')})}</span>
         {/*
           TODO: After we have a way of determining if the course run has been edited, that should
           be added into the list of statuses being passed into the Pill component.
@@ -62,7 +65,7 @@ const formatCourseRunTitle = (courseRun) => {
         </div>
         <div className="course-run-studio-url">
           <>
-            Studio URL -&nbsp;
+            {intl.formatMessage(messages['course-run.edit.collapsible.title.course-run-link'])}
             <Hyperlink
               destination={`${process.env.STUDIO_BASE_URL}/course/${courseRun.key}`}
               target="_blank"
@@ -76,7 +79,7 @@ const formatCourseRunTitle = (courseRun) => {
   }
   return (
     <div>
-      <span>Your new course run</span>
+      <span>{intl.formatMessage(messages['course-run.edit.collapsible.title.new-course-run'])}</span>
     </div>
   );
 };
@@ -156,11 +159,11 @@ class CollapsibleCourseRun extends React.Component {
   displayOfacRestriction(restriction) {
     switch (restriction) {
       case false:
-        return 'No';
+        return  this.props.intl.formatMessage(messages['course-run.edit.collapsible.title.embargo.no']);
       case true:
-        return 'Yes';
+        return this.props.intl.formatMessage(messages['course-run.edit.collapsible.title.embargo.yes']);
       default:
-        return '--';
+        return this.props.intl.formatMessage(messages['course-run.edit.collapsible.title.embargo.default']);
     }
   }
 
@@ -187,6 +190,7 @@ class CollapsibleCourseRun extends React.Component {
 
   render() {
     const {
+      intl,
       courseId,
       courseInReview,
       courseRun,
@@ -236,12 +240,12 @@ class CollapsibleCourseRun extends React.Component {
 
     return (
       <Collapsible
-        title={formatCourseRunTitle(courseRun)}
+        title={formatCourseRunTitle(courseRun, intl)}
         open={isOpen}
         onToggle={onToggle}
       >
         <div className="mb-3">
-          <span className="text-info" aria-hidden> All fields are required for publication unless otherwise specified.</span>
+          <span className="text-info" aria-hidden>{intl.formatMessage(messages['course-run.edit.form.title.text-info'])}</span>
         </div>
         {/* TODO this should be refactored when paragon supports safari */}
         {/* text inputs for safari */}
@@ -259,7 +263,7 @@ class CollapsibleCourseRun extends React.Component {
                 label={(
                   <FieldLabel
                     id={`${courseId}.go_live_date.label`}
-                    text="Publish date"
+                    text={intl.formatMessage(messages['course-run.edit.form.go_live_date.label'])}
                     helpText={publishDateHelp}
                   />
                 )}
@@ -274,8 +278,8 @@ class CollapsibleCourseRun extends React.Component {
                 name={`${courseId}.start`}
                 type="text"
                 component={DateTimeField}
-                dateLabel="Start date"
-                timeLabel={`Start time (${localTimeZone})`}
+                dateLabel={intl.formatMessage(messages['course-run.edit.form.start-date.label'])}
+                timeLabel={intl.formatMessage(messages['course-run.edit.form.start-time.label'], {localTimeZone: localTimeZone})}
                 helpText={courseDateEditHelp}
                 disabled
               />
@@ -283,8 +287,8 @@ class CollapsibleCourseRun extends React.Component {
                 name={`${courseId}.end`}
                 type="text"
                 component={DateTimeField}
-                dateLabel="End date"
-                timeLabel={`End time (${localTimeZone})`}
+                dateLabel={intl.formatMessage(messages['course-run.edit.form.end-date.label'])}
+                timeLabel={intl.formatMessage(messages['course-run.edit.form.end-time.label'], {localTimeZone: localTimeZone})}
                 helpText={courseDateEditHelp}
                 disabled
               />
@@ -302,7 +306,7 @@ class CollapsibleCourseRun extends React.Component {
                 label={(
                   <FieldLabel
                     id={`${courseId}.go_live_date.label`}
-                    text="Publish date"
+                    text={intl.formatMessage(messages['course-run.edit.form.go_live_date.label'])}
                     helpText={publishDateHelp}
                   />
                 )}
@@ -319,8 +323,8 @@ class CollapsibleCourseRun extends React.Component {
                 name={`${courseId}.start`}
                 type="date"
                 component={DateTimeField}
-                dateLabel="Start date"
-                timeLabel={`Start time (${localTimeZone})`}
+                dateLabel={intl.formatMessage(messages['course-run.edit.form.start-date.label'])}
+                timeLabel={intl.formatMessage(messages['course-run.edit.form.start-time.label'], {localTimeZone: localTimeZone})}
                 helpText={courseDateEditHelp}
                 disabled
               />
@@ -328,8 +332,8 @@ class CollapsibleCourseRun extends React.Component {
                 name={`${courseId}.end`}
                 type="date"
                 component={DateTimeField}
-                dateLabel="End date"
-                timeLabel={`End time (${localTimeZone})`}
+                dateLabel={intl.formatMessage(messages['course-run.edit.form.end-date.label'])}
+                timeLabel={intl.formatMessage(messages['course-run.edit.form.end-time.label'], {localTimeZone: localTimeZone})}
                 helpText={courseDateEditHelp}
                 disabled
               />
@@ -339,14 +343,17 @@ class CollapsibleCourseRun extends React.Component {
         <Field
           name={`${courseId}.run_type`}
           component={RenderSelectField}
-          options={runTypeOptions || [{ label: 'Select Course enrollment track first', value: '' }]}
+          options={runTypeOptions || [{
+            label: intl.formatMessage(messages['course-run.edit.form.enrollment-track.options']),
+            value: ''
+          }]}
           extraInput={{ onInvalid: this.openCollapsible }}
           label={(
             <FieldLabel
               id={`${courseId}.run_type.label`}
-              text="Course run enrollment track"
+              text={intl.formatMessage(messages['course-run.edit.form.run_type.label'])}
               helpText={runTypeHelp}
-              extraText="Cannot edit after submission"
+              extraText={intl.formatMessage(messages['course-run.edit.form.run_type.extra'])}
             />
           )}
           // If any of the seats have a SKU, then ecom products exist and
@@ -362,7 +369,7 @@ class CollapsibleCourseRun extends React.Component {
           label={(
             <FieldLabel
               id={`${courseId}.pacing_type.label`}
-              text="Course pacing"
+              text={intl.formatMessage(messages['course-run.edit.form.pacing_type.label'])}
               helpText={coursePacingEditHelp}
             />
           )}
@@ -370,7 +377,7 @@ class CollapsibleCourseRun extends React.Component {
         />
         <FieldLabel
           id={`${courseId}.staff.label`}
-          text="Staff"
+          text={intl.formatMessage(messages['course-run.edit.form.staff.label'])}
           className="mb-2"
           helpText={(
             <div>
@@ -389,7 +396,7 @@ class CollapsibleCourseRun extends React.Component {
           renderSuggestion={renderStaffSuggestion}
           createNewUrl="/instructors/new"
           referrer={`/courses/${courseUuid}`}
-          itemType="staff"
+          itemType={intl.formatMessage(messages['course-run.edit.form.staff.item'])}
           renderItemComponent={Staffer}
           extraInput={{ onInvalid: this.openCollapsible }}
           disabled={disabled}
@@ -397,7 +404,7 @@ class CollapsibleCourseRun extends React.Component {
           owners={owners}
           sourceInfo={sourceInfo}
           newItemInfo={stafferInfo}
-          newItemText="Add New Instructor"
+          newItemText={intl.formatMessage(messages['course-run.edit.form.staff.new-item'])}
         />
         <div className="row">
           <div className="col-6">
@@ -408,7 +415,7 @@ class CollapsibleCourseRun extends React.Component {
               label={(
                 <FieldLabel
                   id={`${courseId}.min_effort.label`}
-                  text="Minimum effort"
+                  text={intl.formatMessage(messages['course-run.edit.form.min_effort.label'])}
                   helpText={(
                     <div>
                       <p>
@@ -436,7 +443,7 @@ class CollapsibleCourseRun extends React.Component {
               label={(
                 <FieldLabel
                   id={`${courseId}.max_effort.label`}
-                  text="Maximum effort"
+                  text={intl.formatMessage(messages['course-run.edit.form.max_effort.label'])}
                   helpText={(
                     <div>
                       <p>
@@ -464,7 +471,7 @@ class CollapsibleCourseRun extends React.Component {
           label={(
             <FieldLabel
               id={`${courseId}.weeks_to_complete.label`}
-              text="Length"
+              text={intl.formatMessage(messages['course-run.edit.form.weeks_to_complete.label'])}
               helpText={(
                 <div>
                   <p>
@@ -484,12 +491,19 @@ class CollapsibleCourseRun extends React.Component {
           type="text"
           component={RenderSelectField}
           options={languageOptions}
-          label={<FieldLabel text="Content language" />}
+          label={
+            <FieldLabel
+                text={intl.formatMessage(messages['course-run.edit.form.content_language.label'])}
+            />
+          }
           extraInput={{ onInvalid: this.openCollapsible }}
           disabled={disabled}
           required={courseRunSubmitting}
         />
-        <FieldLabel text="Transcript languages" className="mb-2" />
+        <FieldLabel
+            text={intl.formatMessage(messages['course-run.edit.form.transcript_languages.label'])}
+            className="mb-2"
+        />
         <FieldArray
           name={`${courseId}.transcript_languages`}
           component={TranscriptLanguage}
@@ -505,7 +519,7 @@ class CollapsibleCourseRun extends React.Component {
           label={(
             <FieldLabel
               id={`${courseId}.expected_program_type.label`}
-              text="Expected Program Type"
+              text={intl.formatMessage(messages['course-run.edit.form.expected_program_type.label'])}
               helpText={(
                 <div>
                   <p>
@@ -527,7 +541,7 @@ class CollapsibleCourseRun extends React.Component {
           label={(
             <FieldLabel
               id={`${courseId}.expected_program_name.label`}
-              text="Expected Program Name"
+              text={intl.formatMessage(messages['course-run.edit.form.expected_program_name.label'])}
               helpText={(
                 <div>
                   <p>
@@ -551,7 +565,7 @@ class CollapsibleCourseRun extends React.Component {
             label={(
               <FieldLabel
                 id={`${courseId}.external_key.label`}
-                text="Institution Course ID"
+                text={intl.formatMessage(messages['course-run.edit.form.external_key.label'])}
                 helpText={(
                   <div>
                     <p>
@@ -572,7 +586,7 @@ class CollapsibleCourseRun extends React.Component {
           <div>
             <FieldLabel
               id="ofac-notice-label"
-              text="Course Embargo (OFAC) Restriction text added to the FAQ section"
+              text={intl.formatMessage(messages['course-run.edit.form.ofac-notice-label.label'])}
               className="mb-2"
               helpText={(
                 <div>
@@ -602,7 +616,7 @@ class CollapsibleCourseRun extends React.Component {
                 label={(
                   <FieldLabel
                     id={`${courseId}.has_ofac_restrictions.label`}
-                    text="OFAC status"
+                    text={intl.formatMessage(messages['course-run.edit.form.has_ofac_restrictions.label'])}
                   />
                 )}
                 extraInput={{ onInvalid: this.openCollapsible }}
@@ -615,7 +629,7 @@ class CollapsibleCourseRun extends React.Component {
                 label={(
                   <FieldLabel
                     id={`${courseId}.ofac_comment.label`}
-                    text="Countries or additional notes"
+                    text={intl.formatMessage(messages['course-run.edit.form.ofac_comment.label'])}
                   />
                 )}
                 extraInput={{ onInvalid: this.openCollapsible }}
@@ -646,6 +660,7 @@ class CollapsibleCourseRun extends React.Component {
 }
 
 CollapsibleCourseRun.propTypes = {
+  intl: intlShape.isRequired,
   courseId: PropTypes.string.isRequired,
   courseInReview: PropTypes.bool,
   courseRun: PropTypes.shape({
@@ -723,4 +738,4 @@ CollapsibleCourseRun.defaultProps = {
   isOpen: false,
 };
 
-export default CollapsibleCourseRun;
+export default (injectIntl(CollapsibleCourseRun));
