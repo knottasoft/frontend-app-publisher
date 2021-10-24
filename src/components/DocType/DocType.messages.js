@@ -18,22 +18,6 @@ const messages = defineMessages({
         defaultMessage: 'Добавить тип документа',
         description: 'Надпись на кнопке',
     }, 
-    
-    'course-run.edit.form.docs.label': {
-        id: 'course-run.edit.form.docs.label',
-        defaultMessage: 'Документы, привязанные к запуску курса',
-        description: 'Надпись раздела документов',
-    }, 
-    
-    'course-run.edit.doc_type.label': {
-        id: 'course-run.edit.doc_type.label',
-        defaultMessage: 'Тип документа',
-        description: 'Название типа документа',
-    }, 'course-run.edit.doc_type.label': {
-        id: 'course-run.edit.doc_type.label',
-        defaultMessage: 'Тип документа',
-        description: 'Название типа документа',
-    },
 });
 
 export default messages;

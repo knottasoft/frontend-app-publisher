@@ -156,6 +156,12 @@ const messages = defineMessages({
         defaultMessage: 'Countries or additional notes',
         description: 'Countries or additional notes for OFAC status',
     },
+    'course-run.edit.form.docs.label': {
+        id: 'course-run.edit.form.docs.label',
+        defaultMessage: 'Документы, привязанные к запуску курса',
+        description: 'Надпись раздела документов',
+    }, 
+
 });
 
 export default messages;
