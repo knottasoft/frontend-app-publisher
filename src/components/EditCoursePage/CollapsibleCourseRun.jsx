@@ -35,6 +35,7 @@ import fetchStaffSuggestions from '../Staffer/fetchStaffSuggestions';
 
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import messages from './CollapsibleCourseRun.messages.js';
+import DocType from '../DocType/DocType';
 
 const determineStatus = run => (courseRunIsArchived(run) ? ARCHIVED : run.status);
 
@@ -212,6 +213,7 @@ class CollapsibleCourseRun extends React.Component {
       isOpen,
       onToggle,
       courseRunTypeOptions,
+      docTypeInfo,
     } = this.props;
     const { hasExternalKey } = this.state;
     const { administrator } = getAuthenticatedUser();
@@ -405,6 +407,29 @@ class CollapsibleCourseRun extends React.Component {
           sourceInfo={sourceInfo}
           newItemInfo={stafferInfo}
           newItemText={intl.formatMessage(messages['course-run.edit.form.staff.new-item'])}
+        />
+        <FieldLabel
+          id={`${courseId}.docs.label`}
+          text={intl.formatMessage(messages['course-run.edit.form.docs.label'])}
+          className="mb-2"
+          helpText={(
+            <div>
+              <p>Список документов, которые студент должен предоставить для прохождения курса</p>
+              <p>
+                В дополнительном блоке можно указать текстовое описание, 
+                которое выведется студенту при попытке записи на этот курс.
+                Текстовое описание будет служить подсказкой для студента. 
+              </p>
+            </div>
+          )}
+          optional
+        />
+        <FieldArray
+          name={`${courseId}.doc_type`}
+          component={DocType}
+          docTypeInfo={docTypeInfo}
+          extraInput={{ onInvalid: this.openCollapsible }}
+          disabled={disabled}
         />
         <div className="row">
           <div className="col-6">
@@ -719,6 +744,7 @@ CollapsibleCourseRun.propTypes = {
   initialValues: PropTypes.shape({
     course_runs: PropTypes.arrayOf(PropTypes.shape({})),
   }).isRequired,
+  docTypeInfo: PropTypes.object,
 };
 
 CollapsibleCourseRun.defaultProps = {

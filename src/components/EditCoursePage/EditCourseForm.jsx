@@ -216,6 +216,7 @@ export class BaseEditCourseForm extends React.Component {
       initialValues,
       collaboratorOptions,
       collaboratorInfo,
+      docTypeInfo,
     } = this.props;
     const {
       open,
@@ -237,7 +238,7 @@ export class BaseEditCourseForm extends React.Component {
       && parseOptions(courseRunOptionsData.content_language.choices));
     const programOptions = (courseRunOptionsData
       && parseOptions(courseRunOptionsData.expected_program_type.choices));
-
+    
     const {
       data: {
         results: allResults,
@@ -267,7 +268,7 @@ export class BaseEditCourseForm extends React.Component {
     languageOptions.unshift({ label: '--', value: '' });
     levelTypeOptions.unshift({ label: '--', value: '' });
     subjectOptions.unshift({ label: '--', value: '' });
-    programOptions.unshift({ label: '--', value: '' });
+    programOptions.unshift({ label: '--', value: '' }); 
 
     return (
       <div className="edit-course-form">
@@ -1035,6 +1036,7 @@ BaseEditCourseForm.propTypes = {
   collaboratorInfo: PropTypes.shape({
     returnToEditCourse: PropTypes.bool,
   }),
+  docTypeInfo: PropTypes.object,
 };
 
 BaseEditCourseForm.defaultProps = {
@@ -1064,6 +1066,7 @@ BaseEditCourseForm.defaultProps = {
     error: [],
     isFetching: false,
   },
+  docTypeInfo: {}
 };
 
 const EditCourseForm = compose(

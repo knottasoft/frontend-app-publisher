@@ -13,6 +13,7 @@ import { fetchOrganizationRoles } from '../../data/actions/organizationRoles';
 import { fetchOrganizationUsers } from '../../data/actions/organizationUsers';
 import { addComment, fetchComments } from '../../data/actions/comments';
 import { fetchCollaboratorOptions } from '../../data/actions/collaboratorOptions';
+import { handleRequestDocType, handleRequestCourseRunDocType, handleEditCourseRunDocType } from '../../data/actions/docType';
 
 const mapStateToProps = state => ({
   comments: state.comments,
@@ -28,6 +29,7 @@ const mapStateToProps = state => ({
   stafferInfo: state.stafferInfo,
   collaboratorInfo: state.collaboratorInfo,
   formValues: formId => getFormValues(formId)(state),
+  docTypeInfo: state.docTypeInfo,
 });
 
 const mapDispatchToProps = {
@@ -47,6 +49,9 @@ const mapDispatchToProps = {
   removeCourseEditor,
   updateFormValuesAfterSave,
   fetchCollaboratorOptions,
+  handleRequestDocType,
+  handleRequestCourseRunDocType,
+  handleEditCourseRunDocType
 };
 
 const mergeProps = (stateProps, actionProps, { uuid }) => ({
@@ -57,6 +62,7 @@ const mergeProps = (stateProps, actionProps, { uuid }) => ({
   fetchCourseInfo: () => actionProps.fetchCourseInfo(uuid),
   addComment: comment => actionProps.addComment(comment),
   fetchComments: () => actionProps.fetchComments(uuid),
+  handleRequestCourseRunDocType: () => actionProps.handleRequestCourseRunDocType(uuid),
 });
 
 export default connect(

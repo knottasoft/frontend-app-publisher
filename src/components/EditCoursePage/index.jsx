@@ -42,6 +42,7 @@ class EditCoursePage extends React.Component {
     this.handleModalForReviewedRun = this.handleModalForReviewedRun.bind(this);
     this.buildInitialValues = this.buildInitialValues.bind(this);
     this.buildCourseRuns = this.buildCourseRuns.bind(this);
+    this.buildCourceRunDocTypes = this.buildCourceRunDocTypes.bind(this);
     this.getData = this.getData.bind(this);
   }
 
@@ -59,6 +60,8 @@ class EditCoursePage extends React.Component {
     this.props.fetchCourseOptions();
     this.props.fetchCourseRunOptions();
     this.props.fetchCollaboratorOptions();
+    this.props.handleRequestDocType();
+    this.props.handleRequestCourseRunDocType();
     this.setStartedFetching();
   }
 
@@ -146,6 +149,7 @@ class EditCoursePage extends React.Component {
         status: courseRun.status,
         transcript_languages: courseRun.transcript_languages,
         weeks_to_complete: courseRun.weeks_to_complete ? courseRun.weeks_to_complete : null,
+        doc_type: courseRun.doc_type,
       });
     });
     return sendCourseRuns;
@@ -270,11 +274,30 @@ class EditCoursePage extends React.Component {
         targetRun,
       },
       editCourse,
+      courseInfo: {
+        data: {
+          uuid,
+        },
+      },
     } = this.props;
     const isInternalReview = targetRun && IN_REVIEW_STATUS.includes(targetRun.status);
     // Process course run info from courseData
     const modifiedCourseRuns = isInternalReview ? this.prepareInternalReview(courseData)
       : this.prepareSendCourseRunData(courseData);
+
+   //ПОдготовка и сохранение документов курса
+    let courseRunDocTypes = {};
+    modifiedCourseRuns.forEach(element => {
+      if (element.doc_type){
+        this.props.handleEditCourseRunDocType({
+          courseId: uuid, 
+          coursRunKey: element.key, 
+          docTypes: element.doc_type,
+        });
+        courseRunDocTypes[element.key] = element.doc_type;
+      }
+    });
+
     // Process courseData to reduced data set
     const courseEditData = this.prepareSendCourseData(courseData);
     return editCourse(
@@ -304,6 +327,10 @@ class EditCoursePage extends React.Component {
         }
         return intl.formatMessage(editCourseFormMessages['review.status.alert.default']);
     }
+  }
+
+  buildCourceRunDocTypes(courseRunKey) {
+    return this.props.docTypeInfo?.courseRunDocTypes[courseRunKey] ?? [];
   }
 
   buildCourseRuns() {
@@ -337,6 +364,7 @@ class EditCoursePage extends React.Component {
       ofac_comment: courseRun.ofac_comment,
       run_type: courseRun.run_type,
       seats: courseRun.seats,
+      doc_type: this.buildCourceRunDocTypes(courseRun.key),
     }));
   }
 
@@ -673,6 +701,7 @@ EditCoursePage.defaultProps = {
   },
   removeCourseEditor: () => null,
   collaboratorInfo: {},
+  docTypeInfo: {},
 };
 
 EditCoursePage.propTypes = {
@@ -734,6 +763,10 @@ EditCoursePage.propTypes = {
   }),
   removeCourseEditor: PropTypes.func,
   collaboratorInfo: PropTypes.shape({}),
+  handleRequestDocType: PropTypes.func,
+  handleRequestCourseRunDocType: PropTypes.func,
+  handleEditCourseRunDocType: PropTypes.func,
+  docTypeInfo: PropTypes.object,
 };
 
 export default (injectIntl(EditCoursePage));
