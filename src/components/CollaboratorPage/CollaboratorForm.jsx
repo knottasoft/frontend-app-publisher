@@ -10,7 +10,11 @@ import FieldLabel from '../FieldLabel';
 import ButtonToolbar from '../ButtonToolbar';
 import { basicValidate } from '../../utils/validation';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './CollaboratorForm.messages.js';
+
 const BaseCollaboratorForm = ({
+  intl,
   handleSubmit,
   pristine,
   isSaving,
@@ -29,7 +33,7 @@ const BaseCollaboratorForm = ({
           label={(
             <FieldLabel
               id="image.label"
-              text="Image"
+              text={intl.formatMessage(messages['collaborator.form.image.label'])}
               helpText={(
                 <div>
                   <p>Image Requirements:</p>
@@ -39,7 +43,7 @@ const BaseCollaboratorForm = ({
                   </ul>
                 </div>
               )}
-              extraText="Image must be 200x100 pixels in size."
+              extraText={intl.formatMessage(messages['collaborator.form.image.extra'])}
             />
           )}
           id="logo_image"
@@ -53,7 +57,11 @@ const BaseCollaboratorForm = ({
           name="name"
           component={RenderInputTextField}
           type="text"
-          label={<FieldLabel text="Name" />}
+          label={
+            <FieldLabel
+                text={intl.formatMessage(messages['collaborator.form.name.label'])}
+            />
+          }
           required
         />
         <ButtonToolbar>
@@ -63,16 +71,16 @@ const BaseCollaboratorForm = ({
             disabled={formControlDisabled}
             onClick={cancelCollaboratorInfo}
           >
-            Cancel
+            {intl.formatMessage(messages['collaborator.form.button.cancel'])}
           </Link>
           <ActionButton
             disabled={formControlDisabled}
             labels={isCreateForm ? {
-              default: 'Create',
-              pending: 'Creating',
+              default: intl.formatMessage(messages['collaborator.form.create.button.create']),
+              pending: intl.formatMessage(messages['collaborator.form.create.button.pending']),
             } : {
-              default: 'Save',
-              pending: 'Saving',
+              default: intl.formatMessage(messages['collaborator.form.edit.button.create']),
+              pending: intl.formatMessage(messages['collaborator.form.edit.button.pending']),
             }}
             state={isSaving ? 'pending' : 'default'}
           />
@@ -83,6 +91,7 @@ const BaseCollaboratorForm = ({
 };
 
 BaseCollaboratorForm.propTypes = {
+  intl: intlShape.isRequired,
   cancelCollaboratorInfo: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   isSaving: PropTypes.bool,
@@ -101,5 +110,6 @@ BaseCollaboratorForm.defaultProps = {
 
 export default reduxForm({
   form: 'collaborator-form',
-})(BaseCollaboratorForm);
+})(injectIntl(BaseCollaboratorForm));
+
 export { basicValidate, BaseCollaboratorForm };

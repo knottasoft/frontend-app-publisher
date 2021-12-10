@@ -8,6 +8,9 @@ import {
   REVIEW_BY_INTERNAL, REVIEW_BY_LEGAL, REVIEWED, UNPUBLISHED,
 } from '../../data/constants';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './CourseRunSubmitButton.messages.js';
+
 class CourseRunSubmitButton extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +19,7 @@ class CourseRunSubmitButton extends React.Component {
 
   submitLabel() {
     const {
+      intl,
       hasNonExemptChanges,
       status,
     } = this.props;
@@ -24,24 +28,25 @@ class CourseRunSubmitButton extends React.Component {
     if (administrator) {
       switch (status) {
         case REVIEW_BY_LEGAL:
-          return 'Save & Send to PC Review';
+          return intl.formatMessage(messages['course-run.edit.submit-button.review-by-legal']);
         case REVIEW_BY_INTERNAL:
-          return 'PC Review Complete';
+          return intl.formatMessage(messages['course-run.edit.submit-button.review-by-internal']);
         default:
           break;
       }
     }
     if (status === REVIEWED) {
       if (hasNonExemptChanges) {
-        return 'Re-Submit Run for Review';
+        return intl.formatMessage(messages['course-run.edit.submit-button.review.re-submit']);
       }
-      return 'Update Run';
+      return intl.formatMessage(messages['course-run.edit.submit-button.review.update']);
     }
-    return 'Submit Run for Review';
+    return intl.formatMessage(messages['course-run.edit.submit-button.review.submit']);
   }
 
   render() {
     const {
+      intl,
       disabled,
       onSubmit,
       submitting,
@@ -53,7 +58,7 @@ class CourseRunSubmitButton extends React.Component {
         onClick={onSubmit}
         labels={{
           default: this.submitLabel(),
-          pending: 'Submitting Run for Review',
+          pending: intl.formatMessage(messages['course-run.edit.submit-button.submitting']),
         }}
         state={submitting ? 'pending' : 'default'}
       />
@@ -62,6 +67,7 @@ class CourseRunSubmitButton extends React.Component {
 }
 
 CourseRunSubmitButton.propTypes = {
+  intl: intlShape.isRequired,
   disabled: PropTypes.bool,
   hasNonExemptChanges: PropTypes.bool,
   onSubmit: PropTypes.func,
@@ -77,4 +83,4 @@ CourseRunSubmitButton.defaultProps = {
   submitting: false,
 };
 
-export default CourseRunSubmitButton;
+export default (injectIntl(CourseRunSubmitButton));

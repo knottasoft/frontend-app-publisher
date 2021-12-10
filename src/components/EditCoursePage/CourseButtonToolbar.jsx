@@ -4,8 +4,12 @@ import React from 'react';
 import ActionButton from '../ActionButton';
 import ButtonToolbar from '../ButtonToolbar';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './CourseButtonToolbar.messages.js';
+
 function CourseButtonToolbar(props) {
   const {
+    intl,
     className,
     disabled,
     editable,
@@ -39,16 +43,16 @@ function CourseButtonToolbar(props) {
           onClick={onClear}
           type="button"
         >
-          Clear Edits
+          {intl.formatMessage(messages['course.edit.button-toolbar.clear-edits'])}
         </button>
       )}
       <ActionButton
         disabled={disabled}
         labels={{
-          default: 'Save & Continue Editing',
-          republish: 'Save & Re-Publish',
-          pending: 'Saving Course',
-          complete: 'Course Saved',
+          default: intl.formatMessage(messages['course.edit.button-toolbar.default']),
+          republish: intl.formatMessage(messages['course.edit.button-toolbar.republish']),
+          pending: intl.formatMessage(messages['course.edit.button-toolbar.pending']),
+          complete: intl.formatMessage(messages['course.edit.button-toolbar.complete']),
         }}
         state={saveState}
         onClick={onSave}
@@ -58,6 +62,7 @@ function CourseButtonToolbar(props) {
 }
 
 CourseButtonToolbar.propTypes = {
+  intl: intlShape.isRequired,
   className: PropTypes.string,
   disabled: PropTypes.bool,
   editable: PropTypes.bool,
@@ -79,4 +84,4 @@ CourseButtonToolbar.defaultProps = {
   submitting: false,
 };
 
-export default CourseButtonToolbar;
+export default (injectIntl(CourseButtonToolbar));

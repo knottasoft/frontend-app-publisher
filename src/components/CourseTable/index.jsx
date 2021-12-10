@@ -14,6 +14,9 @@ import { formatDate, getPageOptionsFromUrl, updateUrl } from '../../utils';
 import Pill from '../Pill';
 import { PUBLISHED, REVIEWED } from '../../data/constants';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import courseTableMessages from './CourseTable.messages.js';
+
 const dot = color => ({
   alignItems: 'center',
   display: 'flex',
@@ -30,17 +33,17 @@ const dot = color => ({
 });
 
 class CourseTable extends React.Component {
-  constructor(props) {
+  constructor(props,context) {
     super(props);
     this.state = {
       filterGroups: [
         {
-          label: 'Course Run Statuses',
+          label: this.props.intl.formatMessage(courseTableMessages['course.statuses.label']),
           options: [
-            { value: 'in_review', label: 'In review', color: '#e7e7e7' },
-            { value: PUBLISHED, label: 'Published', color: '#008100' },
-            { value: REVIEWED, label: 'Scheduled', color: '#0075b4' },
-            { value: 'unsubmitted', label: 'Unsubmitted', color: '#E2C018' },
+            { value: 'in_review', label: this.props.intl.formatMessage(courseTableMessages['course.status.in_review']), color: '#e7e7e7' },
+            { value: PUBLISHED, label: this.props.intl.formatMessage(courseTableMessages['course.status.published']), color: '#008100' },
+            { value: REVIEWED, label: this.props.intl.formatMessage(courseTableMessages['course.status.scheduled']), color: '#0075b4' },
+            { value: 'unsubmitted', label: this.props.intl.formatMessage(courseTableMessages['course.status.unsubmitted']), color: '#E2C018' },
           ],
         },
       ],
@@ -129,7 +132,7 @@ class CourseTable extends React.Component {
           <div className="col-2 float-left">
             <ButtonToolbar className="mb-3" leftJustify>
               <Link to="/courses/new">
-                <button type="button" className="btn btn-primary">New Course</button>
+                <button type="button" className="btn btn-primary">{this.props.intl.formatMessage(courseTableMessages['create.course.button'])}</button>
               </Link>
             </ButtonToolbar>
           </div>
@@ -142,7 +145,7 @@ class CourseTable extends React.Component {
                 ? [] : filters)}
               isMulti
               maxMenuHeight="30vh"
-              placeholder="Filters..."
+              placeholder={this.props.intl.formatMessage(courseTableMessages['filters'])}
               styles={
                 {
                   option: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
@@ -168,7 +171,7 @@ class CourseTable extends React.Component {
               onSubmit={(filter) => {
                 updateUrl({ filter, page: 1 });
               }}
-              placeholder="Search"
+              placeholder={this.props.intl.formatMessage(courseTableMessages['search'])}
             />
           </div>
         </div>
@@ -178,6 +181,7 @@ class CourseTable extends React.Component {
 
   render() {
     const {
+      intl,
       table: {
         error,
         loading,
@@ -186,22 +190,22 @@ class CourseTable extends React.Component {
 
     const courseTableColumns = [
       {
-        label: 'Course Name',
+        label: intl.formatMessage(courseTableMessages['course.name']),
         key: 'title',
         columnSortable: true,
       },
       {
-        label: 'Course Number',
+        label: intl.formatMessage(courseTableMessages['course.number']),
         key: 'number',
         columnSortable: true,
       },
       {
-        label: 'States',
+        label: intl.formatMessage(courseTableMessages['course.states']),
         key: 'course_run_statuses',
         columnSortable: false,
       },
       {
-        label: 'Course Editors',
+        label: intl.formatMessage(courseTableMessages['course.editors']),
         key: 'course_editor_names',
         columnSortable: false,
       },
@@ -233,6 +237,7 @@ class CourseTable extends React.Component {
 }
 
 CourseTable.defaultProps = {
+  intl: intlShape.isRequired,
   fetchOrganizations: () => {},
   publisherUserInfo: {
     organizations: [],
@@ -245,6 +250,7 @@ CourseTable.defaultProps = {
 };
 
 CourseTable.propTypes = {
+  intl: intlShape.isRequired,
   fetchOrganizations: PropTypes.func,
   publisherUserInfo: PropTypes.shape({
     organizations: PropTypes.array,
@@ -264,4 +270,4 @@ CourseTable.propTypes = {
   }),
 };
 
-export default CourseTable;
+export default (injectIntl(CourseTable));

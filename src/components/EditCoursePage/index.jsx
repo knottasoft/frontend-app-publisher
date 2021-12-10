@@ -20,6 +20,9 @@ import store from '../../data/store';
 import ConfirmationModal from '../ConfirmationModal';
 import SidePanes from '../SidePanes';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import editCourseFormMessages from './EditCourse.messages.js';
+
 class EditCoursePage extends React.Component {
   constructor(props) {
     super(props);
@@ -39,6 +42,7 @@ class EditCoursePage extends React.Component {
     this.handleModalForReviewedRun = this.handleModalForReviewedRun.bind(this);
     this.buildInitialValues = this.buildInitialValues.bind(this);
     this.buildCourseRuns = this.buildCourseRuns.bind(this);
+    this.buildCourceRunDocTypes = this.buildCourceRunDocTypes.bind(this);
     this.getData = this.getData.bind(this);
   }
 
@@ -56,6 +60,8 @@ class EditCoursePage extends React.Component {
     this.props.fetchCourseOptions();
     this.props.fetchCourseRunOptions();
     this.props.fetchCollaboratorOptions();
+    this.props.handleRequestDocType();
+    this.props.handleRequestCourseRunDocType();
     this.setStartedFetching();
   }
 
@@ -145,6 +151,7 @@ class EditCoursePage extends React.Component {
         status: courseRun.status,
         transcript_languages: courseRun.transcript_languages,
         weeks_to_complete: courseRun.weeks_to_complete ? courseRun.weeks_to_complete : null,
+        doc_type: courseRun.doc_type,
       });
     });
     return sendCourseRuns;
@@ -269,11 +276,30 @@ class EditCoursePage extends React.Component {
         targetRun,
       },
       editCourse,
+      courseInfo: {
+        data: {
+          uuid,
+        },
+      },
     } = this.props;
     const isInternalReview = targetRun && IN_REVIEW_STATUS.includes(targetRun.status);
     // Process course run info from courseData
     const modifiedCourseRuns = isInternalReview ? this.prepareInternalReview(courseData)
       : this.prepareSendCourseRunData(courseData);
+
+   //ПОдготовка и сохранение документов курса
+    let courseRunDocTypes = {};
+    modifiedCourseRuns.forEach(element => {
+      if (element.doc_type){
+        this.props.handleEditCourseRunDocType({
+          courseId: uuid, 
+          coursRunKey: element.key, 
+          docTypes: element.doc_type,
+        });
+        courseRunDocTypes[element.key] = element.doc_type;
+      }
+    });
+
     // Process courseData to reduced data set
     const courseEditData = this.prepareSendCourseData(courseData);
     return editCourse(
@@ -287,22 +313,26 @@ class EditCoursePage extends React.Component {
 
   displayReviewStatusAlert(status) {
     const {
+      intl,
       courseInfo: { data: { course_runs } },
       courseSubmitInfo: { targetRun: { key } },
     } = this.props;
     const runFromAPI = course_runs ? course_runs.find(run => run.key === key) : {};
     switch (status) {
       case REVIEW_BY_LEGAL:
-        return 'Legal Review Complete. Course Run is now awaiting PC Review.';
+        return intl.formatMessage(editCourseFormMessages['review.status.alert.review_by_legal']);
       case REVIEW_BY_INTERNAL:
-        return 'PC Review Complete.';
+        return intl.formatMessage(editCourseFormMessages['review.status.alert.review_by_internal'])
       default:
         if (status === PUBLISHED || (status === REVIEWED && runFromAPI.status === REVIEWED)) {
-          return 'Course Run Updated.';
+          return intl.formatMessage(editCourseFormMessages['review.status.alert.course_update']);
         }
-        return 'Course has been submitted for review. The course will be locked for the next two business days. '
-          + 'You will receive an email when the review is complete.';
+        return intl.formatMessage(editCourseFormMessages['review.status.alert.default']);
     }
+  }
+
+  buildCourceRunDocTypes(courseRunKey) {
+    return this.props.docTypeInfo?.courseRunDocTypes[courseRunKey] ?? [];
   }
 
   buildCourseRuns() {
@@ -354,6 +384,7 @@ class EditCoursePage extends React.Component {
       ofac_comment: courseRun.ofac_comment,
       run_type: courseRun.run_type,
       seats: buildSeats(courseRun.seats),
+      doc_type: this.buildCourceRunDocTypes(courseRun.key),
     }));
   }
 
@@ -467,14 +498,14 @@ class EditCoursePage extends React.Component {
         <StatusAlert
           id="error"
           alertType="danger"
-          title="Course Edit Form failed to load: "
-          message="Course information unavailable. Please try reloading the page and if the error
-           persists, please contact support."
+          title={this.props.intl.formatMessage(editCourseFormMessages['course.edit.alert.title'])}
+          message={this.props.intl.formatMessage(editCourseFormMessages['course.edit.alert.message'])}
         />
       );
     }
 
     const {
+      intl,
       courseInfo,
       courseInfo: {
         data: {
@@ -558,9 +589,9 @@ class EditCoursePage extends React.Component {
     return (
       <>
         <ConfirmationModal
-          title="Submit for Review?"
-          body="You will not be able to make edits while the course is in review, which can take up to 2 business days. Confirm your edits are complete."
-          buttonLabel="Submit"
+          title={this.props.intl.formatMessage(editCourseFormMessages['course.edit.confirmation.title'])}
+          body={this.props.intl.formatMessage(editCourseFormMessages['course.edit.confirmation.body'])}
+          buttonLabel={intl.formatMessage(editCourseFormMessages['course.edit.confirmation.button'])}
           open={submitConfirmVisible}
           onSubmit={this.continueSubmit}
           onClose={this.cancelSubmit}
@@ -580,7 +611,7 @@ class EditCoursePage extends React.Component {
             onClose={this.dismissCreateStatusAlert}
             dismissible
             alertType="success"
-            message="Course run has been created in studio. See link below."
+            message={this.props.intl.formatMessage(editCourseFormMessages['course.edit.alert.create'])}
           />
           ) }
         </div>
@@ -611,13 +642,13 @@ class EditCoursePage extends React.Component {
           { showForm && !editable && (
           <StatusAlert
             alertType="secondary"
-            message="You have permission to view this course, but not edit. If you would like to edit the course, please contact a course editor."
+            message={this.props.intl.formatMessage(editCourseFormMessages['course.edit.alert.edit_permissions'])}
           />
           ) }
           { showForm && (
             <>
               <Helmet>
-                <title>{`Course - ${title}`}</title>
+                <title>{this.props.intl.formatMessage(editCourseFormMessages['course.edit.helmet'], {title: title})}</title>
               </Helmet>
               <EditCourseForm
                 id={this.getFormId()}
@@ -690,9 +721,11 @@ EditCoursePage.defaultProps = {
   },
   removeCourseEditor: () => null,
   collaboratorInfo: {},
+  docTypeInfo: {},
 };
 
 EditCoursePage.propTypes = {
+  intl: intlShape.isRequired,
   addComment: PropTypes.func,
   addCourseEditor: PropTypes.func,
   comments: PropTypes.shape({
@@ -750,6 +783,10 @@ EditCoursePage.propTypes = {
   }),
   removeCourseEditor: PropTypes.func,
   collaboratorInfo: PropTypes.shape({}),
+  handleRequestDocType: PropTypes.func,
+  handleRequestCourseRunDocType: PropTypes.func,
+  handleEditCourseRunDocType: PropTypes.func,
+  docTypeInfo: PropTypes.object,
 };
 
-export default EditCoursePage;
+export default (injectIntl(EditCoursePage));

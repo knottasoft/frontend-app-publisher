@@ -7,6 +7,9 @@ import RenderSelectField from '../RenderSelectField';
 import RemoveButton from '../RemoveButton';
 import FieldLabel from '../FieldLabel';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './SocialLinks.messages.js';
+
 class SocialLinks extends React.Component {
   constructor(props) {
     super(props);
@@ -16,11 +19,11 @@ class SocialLinks extends React.Component {
 
   getSocialOptions() {
     return [
-      { label: 'Please select a type', value: '' },
-      { label: 'Facebook', value: 'facebook' },
-      { label: 'Twitter', value: 'twitter' },
-      { label: 'Blog', value: 'blog' },
-      { label: 'Other', value: 'others' },
+      { label: this.props.intl.formatMessage(messages['staffer.social.option.default']), value: '' },
+      { label: this.props.intl.formatMessage(messages['staffer.social.option.facebook']), value: 'facebook' },
+      { label: this.props.intl.formatMessage(messages['staffer.social.option.twitter']), value: 'twitter' },
+      { label: this.props.intl.formatMessage(messages['staffer.social.option.blog']), value: 'blog' },
+      { label: this.props.intl.formatMessage(messages['staffer.social.option.others']), value: 'others' },
     ];
   }
 
@@ -29,7 +32,7 @@ class SocialLinks extends React.Component {
   }
 
   render() {
-    const { fields } = this.props;
+    const { fields, intl } = this.props;
 
     return (
       <div className="social-links mb-3">
@@ -41,7 +44,12 @@ class SocialLinks extends React.Component {
                   name={`${link}.type`}
                   component={RenderSelectField}
                   options={this.getSocialOptions()}
-                  label={<FieldLabel text="Type" required />}
+                  label={
+                    <FieldLabel
+                        text={intl.formatMessage(messages['staffer.social.type'])}
+                        required
+                    />
+                  }
                   required
                 />
               </div>
@@ -50,7 +58,11 @@ class SocialLinks extends React.Component {
                   name={`${link}.title`}
                   component={RenderInputTextField}
                   type="text"
-                  label={<FieldLabel text="Link Text" />}
+                  label={
+                    <FieldLabel
+                        text={intl.formatMessage(messages['staffer.social.title'])}
+                    />
+                  }
                 />
               </div>
               <div className="col-4">
@@ -58,7 +70,12 @@ class SocialLinks extends React.Component {
                   name={`${link}.url`}
                   component={RenderInputTextField}
                   type="url"
-                  label={<FieldLabel text="URL" required />}
+                  label={
+                    <FieldLabel
+                        text={intl.formatMessage(messages['staffer.social.url'])}
+                        required
+                    />
+                  }
                   required
                 />
               </div>
@@ -68,7 +85,7 @@ class SocialLinks extends React.Component {
               />
               <RemoveButton
                 className="col-1 m-auto"
-                label="Remove social link"
+                label={intl.formatMessage(messages['staffer.social.button.remove'])}
                 onRemove={this.handleRemove}
                 targetFieldNumber={index}
               />
@@ -80,7 +97,7 @@ class SocialLinks extends React.Component {
           className="btn btn-outline-primary js-add-button mt-2"
           onClick={() => fields.push({})}
         >
-          Add social link
+          {intl.formatMessage(messages['staffer.social.button.add'])}
         </button>
       </div>
     );
@@ -88,7 +105,8 @@ class SocialLinks extends React.Component {
 }
 
 SocialLinks.propTypes = {
+  intl: intlShape.isRequired,
   fields: PropTypes.instanceOf(FieldArray).isRequired,
 };
 
-export default SocialLinks;
+export default injectIntl(SocialLinks);

@@ -35,6 +35,9 @@ import { Collaborator } from '../Collaborator';
 import renderSuggestion from '../Collaborator/renderSuggestion';
 import fetchCollabSuggestions from '../Collaborator/fetchCollabSuggestions';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './EditCourse.messages.js';
+
 export class BaseEditCourseForm extends React.Component {
   constructor(props) {
     super(props);
@@ -105,7 +108,7 @@ export class BaseEditCourseForm extends React.Component {
         className="btn btn-block rounded mt-3 new-run-button"
         disabled={disabled}
       >
-        <Icon className="fa fa-plus" /> Add Course Run
+        <Icon className="fa fa-plus" /> {this.props.intl.formatMessage(messages['course.edit.button.add_course_run'])}
       </button>
     );
 
@@ -123,7 +126,7 @@ export class BaseEditCourseForm extends React.Component {
 
     return courseRunButton;
   }
-
+  // TODO: Необходимо заменить ссылку на страницу предварительного просмотра
   getLinkComponent(courseStatuses, courseInfo) {
     if (courseStatuses.length === 1 && courseStatuses[0] === REVIEWED && courseInfo.data && courseInfo.data.url_slug) {
       return (
@@ -132,26 +135,26 @@ export class BaseEditCourseForm extends React.Component {
             destination={`https://www.edx.org/preview/course/${courseInfo.data.url_slug}`}
             target="_blank"
           >
-            View Preview Page
+            {this.props.intl.formatMessage(messages['course.edit.collapsible.preview.link'])}
           </Hyperlink>
-          <span className="d-block">Any changes will go live when the website next builds</span>
+          <span className="d-block">{this.props.intl.formatMessage(messages['course.edit.collapsible.preview.span'])}</span>
         </>
       );
     }
     if (courseStatuses.includes(PUBLISHED) && courseInfo.data && courseInfo.data.marketing_url) {
       return (
         <div>
-          Already published -&nbsp;
+          {this.props.intl.formatMessage(messages['course.edit.collapsible.live_view.div'])}
           <Hyperlink
             destination={courseInfo.data.marketing_url}
             target="_blank"
           >
-            View Live Page
+            {this.props.intl.formatMessage(messages['course.edit.collapsible.live_view.link'])}
           </Hyperlink>
         </div>
       );
     }
-    return 'No Preview Link Available';
+    return this.props.intl.formatMessage(messages['course.edit.collapsible.preview.default']);
   }
 
   formatCourseTitle(title, courseStatuses, courseInfo) {
@@ -159,7 +162,7 @@ export class BaseEditCourseForm extends React.Component {
     // added into the list of statuses being passed into the Pill component.
     return (
       <>
-        {`Course: ${title}`}
+        {this.props.intl.formatMessage(messages['course.edit.collapsible.title'], {title: title})}
         <Pill statuses={courseStatuses} />
         <div className="course-preview-url">
           { this.getLinkComponent(courseStatuses, courseInfo) }
@@ -213,6 +216,7 @@ export class BaseEditCourseForm extends React.Component {
       initialValues,
       collaboratorOptions,
       collaboratorInfo,
+      docTypeInfo,
     } = this.props;
     const {
       open,
@@ -234,7 +238,7 @@ export class BaseEditCourseForm extends React.Component {
       && parseOptions(courseRunOptionsData.content_language.choices));
     const programOptions = (courseRunOptionsData
       && parseOptions(courseRunOptionsData.expected_program_type.choices));
-
+    
     const {
       data: {
         results: allResults,
@@ -264,7 +268,7 @@ export class BaseEditCourseForm extends React.Component {
     languageOptions.unshift({ label: '--', value: '' });
     levelTypeOptions.unshift({ label: '--', value: '' });
     subjectOptions.unshift({ label: '--', value: '' });
-    programOptions.unshift({ label: '--', value: '' });
+    programOptions.unshift({ label: '--', value: '' }); 
 
     return (
       <div className="edit-course-form">
@@ -277,7 +281,7 @@ export class BaseEditCourseForm extends React.Component {
             onToggle={this.setCollapsible}
           >
             <div className="mb-3">
-              <span className="text-info" aria-hidden> All fields are required for publication unless otherwise specified.</span>
+              <span className="text-info" aria-hidden> {this.props.intl.formatMessage(messages['course.edit.form.text_info'])}</span>
             </div>
             <Field
               name="title"
@@ -286,7 +290,7 @@ export class BaseEditCourseForm extends React.Component {
               label={(
                 <FieldLabel
                   id="title.label"
-                  text="Title"
+                  text={this.props.intl.formatMessage(messages['course.edit.form.title'])}
                   helpText={titleHelp}
                 />
               )}
@@ -301,7 +305,7 @@ export class BaseEditCourseForm extends React.Component {
               label={(
                 <FieldLabel
                   id="slug.label"
-                  text="URL slug"
+                  text={this.props.intl.formatMessage(messages['course.edit.form.slug'])}
                   optional
                   helpText={urlSlugHelp}
                 />
@@ -310,7 +314,11 @@ export class BaseEditCourseForm extends React.Component {
               optional
             />
             <div>
-              <FieldLabel id="number" text="Number" className="mb-2" />
+              <FieldLabel
+                  id="number"
+                  text={this.props.intl.formatMessage(messages['course.edit.form.number'])}
+                  className="mb-2"
+              />
               <div className="mb-3">{number}</div>
             </div>
             <Field
@@ -320,9 +328,9 @@ export class BaseEditCourseForm extends React.Component {
               label={(
                 <FieldLabel
                   id="type.label"
-                  text="Course enrollment track"
+                  text={this.props.intl.formatMessage(messages['course.edit.form.enrollment.text'])}
                   helpText={typeHelp}
-                  extraText="Cannot edit after submission"
+                  extraText={this.props.intl.formatMessage(messages['course.edit.form.enrollment.extra'])}
                 />
               )}
               extraInput={{ onInvalid: this.openCollapsible }}
@@ -336,7 +344,7 @@ export class BaseEditCourseForm extends React.Component {
             />
             <FieldLabel
               id="collaborators.label"
-              text="Collaborators"
+              text={this.props.intl.formatMessage(messages['course.edit.form.collaborators'])}
               helpText={(
                 <div>
                   <p>
@@ -357,11 +365,11 @@ export class BaseEditCourseForm extends React.Component {
               fetchSuggestions={fetchCollabSuggestions(allCollaborators)}
               createNewUrl="/collaborators/new"
               referrer={`/courses/${uuid}`}
-              itemType="collaborator"
+              itemType={this.props.intl.formatMessage(messages['course.edit.form.collaborators.item'])}
               renderItemComponent={Collaborator}
               renderSuggestion={renderSuggestion}
               disabled={disabled}
-              newItemText="Add New Collaborator"
+              newItemText={this.props.intl.formatMessage(messages['course.edit.form.collaborators.add'])}
               newItemInfo={collaboratorInfo}
             />
             <Field
@@ -370,7 +378,7 @@ export class BaseEditCourseForm extends React.Component {
               label={(
                 <FieldLabel
                   id="image.label"
-                  text="Image"
+                  text={this.props.intl.formatMessage(messages['course.edit.form.image.text'])}
                   helpText={(
                     <div>
                       <p>
@@ -398,7 +406,7 @@ export class BaseEditCourseForm extends React.Component {
                       </p>
                     </div>
                   )}
-                  extraText="Image must be 1134x675 pixels in size."
+                  extraText={this.props.intl.formatMessage(messages['course.edit.form.image.extra'])}
                 />
               )}
               extraInput={{ onInvalid: this.openCollapsible }}
@@ -419,7 +427,7 @@ export class BaseEditCourseForm extends React.Component {
                   label={(
                     <FieldLabel
                       id="sdesc.label"
-                      text="Short description"
+                      text={this.props.intl.formatMessage(messages['course.edit.form.short_description.text'])}
                       helpText={(
                         <div>
                           <p>An effective short description:</p>
@@ -459,7 +467,7 @@ export class BaseEditCourseForm extends React.Component {
                   label={(
                     <FieldLabel
                       id="ldesc.label"
-                      text="Long description"
+                      text={this.props.intl.formatMessage(messages['course.edit.form.long_description.text'])}
                       helpText={(
                         <div>
                           <p>An effective long description:</p>
@@ -498,7 +506,7 @@ export class BaseEditCourseForm extends React.Component {
                   label={(
                     <FieldLabel
                       id="outcome.label"
-                      text="What you will learn"
+                      text={this.props.intl.formatMessage(messages['course.edit.form.outcome.label'])}
                       helpText={(
                         <div>
                           <p>The skills and knowledge learners will acquire in this course.</p>
@@ -534,7 +542,7 @@ export class BaseEditCourseForm extends React.Component {
                   label={(
                     <FieldLabel
                       id="syllabus.label"
-                      text="Syllabus"
+                      text={this.props.intl.formatMessage(messages['course.edit.form.syllabus.label'])}
                       helpText={(
                         <div>
                           <p>
@@ -591,7 +599,7 @@ export class BaseEditCourseForm extends React.Component {
                   label={(
                     <FieldLabel
                       id="prereq.label"
-                      text="Prerequisites"
+                      text={this.props.intl.formatMessage(messages['course.edit.form.prereq.label'])}
                       helpText={(
                         <div>
                           <p>
@@ -632,7 +640,7 @@ export class BaseEditCourseForm extends React.Component {
                   label={(
                     <FieldLabel
                       id="testimonials.label"
-                      text="Learner testimonials"
+                      text={this.props.intl.formatMessage(messages['course.edit.form.testimonials.label'])}
                       helpText={(
                         <div>
                           <p>
@@ -671,7 +679,7 @@ export class BaseEditCourseForm extends React.Component {
                   label={(
                     <FieldLabel
                       id="faq.label"
-                      text="Frequently asked questions"
+                      text={this.props.intl.formatMessage(messages['course.edit.form.faq.label'])}
                       helpText={(
                         <div>
                           <p>Any frequently asked questions and the answers to those questions.</p>
@@ -715,7 +723,7 @@ export class BaseEditCourseForm extends React.Component {
                   label={(
                     <FieldLabel
                       id="additional-info.label"
-                      text="Additional information"
+                      text={this.props.intl.formatMessage(messages['course.edit.form.additional-info.label'])}
                       helpText={(
                         <div>
                           <p>Any additional information to be provided to learners.</p>
@@ -739,7 +747,7 @@ export class BaseEditCourseForm extends React.Component {
                   label={(
                     <FieldLabel
                       id="video.label"
-                      text="About video link"
+                      text={this.props.intl.formatMessage(messages['course.edit.form.video.label'])}
                       helpText={(
                         <div>
                           <p>
@@ -800,7 +808,7 @@ export class BaseEditCourseForm extends React.Component {
               label={(
                 <FieldLabel
                   id="level.label"
-                  text="Course level"
+                  text={this.props.intl.formatMessage(messages['course.edit.form.level.label'])}
                   // TODO: these descriptions should come from the server -- levels are defined in
                   //       the database and are not suitable for hardcoding like this.
                   helpText={(
@@ -837,7 +845,7 @@ export class BaseEditCourseForm extends React.Component {
               label={(
                 <FieldLabel
                   id="subject1.label"
-                  text="Primary subject"
+                  text={this.props.intl.formatMessage(messages['course.edit.form.subject1.label'])}
                   helpText={(
                     <div>
                       <p>The subject of the course.</p>
@@ -866,7 +874,12 @@ export class BaseEditCourseForm extends React.Component {
             <Field
               name="subjectSecondary"
               component={RenderSelectField}
-              label={<FieldLabel text="Secondary subject" optional />}
+              label={
+                <FieldLabel
+                    text={this.props.intl.formatMessage(messages['course.edit.form.subject-secondary.label'])}
+                    optional
+                />
+              }
               extraInput={{ onInvalid: this.openCollapsible }}
               options={subjectOptions}
               disabled={disabled}
@@ -875,7 +888,12 @@ export class BaseEditCourseForm extends React.Component {
             <Field
               name="subjectTertiary"
               component={RenderSelectField}
-              label={<FieldLabel text="Tertiary subject" optional />}
+              label={
+                <FieldLabel
+                    text={this.props.intl.formatMessage(messages['course.edit.form.subject-tertiary.label'])}
+                    optional
+                />
+              }
               extraInput={{ onInvalid: this.openCollapsible }}
               options={subjectOptions}
               disabled={disabled}
@@ -889,7 +907,7 @@ export class BaseEditCourseForm extends React.Component {
               label={(
                 <FieldLabel
                   id="skills.label"
-                  text="Skills"
+                  text={this.props.intl.formatMessage(messages['course.edit.form.skills.label'])}
                   helpText={(
                     <div>
                       <p>
@@ -908,7 +926,10 @@ export class BaseEditCourseForm extends React.Component {
             />
             )}
           </Collapsible>
-          <FieldLabel text="Course runs" className="mt-4 mb-2 h2" />
+          <FieldLabel
+              text={this.props.intl.formatMessage(messages['course-run.edit.title'])}
+              className="mt-4 mb-2 h2"
+          />
           <FieldArray
             name="course_runs"
             component={CollapsibleCourseRuns}
@@ -954,6 +975,7 @@ export class BaseEditCourseForm extends React.Component {
 }
 
 BaseEditCourseForm.propTypes = {
+  intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   number: PropTypes.string.isRequired,
   currentFormValues: PropTypes.shape({
@@ -1014,6 +1036,7 @@ BaseEditCourseForm.propTypes = {
   collaboratorInfo: PropTypes.shape({
     returnToEditCourse: PropTypes.bool,
   }),
+  docTypeInfo: PropTypes.object,
 };
 
 BaseEditCourseForm.defaultProps = {
@@ -1043,6 +1066,7 @@ BaseEditCourseForm.defaultProps = {
     error: [],
     isFetching: false,
   },
+  docTypeInfo: {}
 };
 
 const EditCourseForm = compose(
@@ -1070,4 +1094,4 @@ const EditCourseForm = compose(
   }),
 )(BaseEditCourseForm);
 
-export default EditCourseForm;
+export default (injectIntl(EditCourseForm));

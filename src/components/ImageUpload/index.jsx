@@ -4,6 +4,9 @@ import classNames from 'classnames';
 
 import StatusAlert from '../StatusAlert';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import messages from './ImageUpload.messages.js';
+
 class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
@@ -23,6 +26,7 @@ class ImageUpload extends React.Component {
 
   handleFilePicked(event) {
     const {
+      intl,
       maxImageSizeKilo,
       requiredWidth,
       requiredHeight,
@@ -34,9 +38,11 @@ class ImageUpload extends React.Component {
     if (file && file.size > maxImageSizeKilo * 1000) {
       this.updateValue('');
       this.setState({
-        sizeValidationError: `That image is too large. Please upload an image that
-        is less than ${maxImageSizeKilo} kB. Remember that image dimensions must be
-        exactly ${requiredWidth}×${requiredHeight} pixels.`,
+        sizeValidationError: intl.formatMessage(messages['image-upload.large-error'], {
+          maxImageSizeKilo: maxImageSizeKilo,
+          requiredWidth: requiredWidth,
+          requiredHeight: requiredHeight
+        }),
       });
       return;
     }
@@ -51,6 +57,7 @@ class ImageUpload extends React.Component {
 
   sizeValidator(event) {
     const {
+      intl,
       requiredWidth,
       requiredHeight,
       meta: {
@@ -62,8 +69,10 @@ class ImageUpload extends React.Component {
         || event.target.naturalHeight !== requiredHeight)) {
       this.updateValue('');
       this.setState({
-        sizeValidationError: `That image has the wrong dimensions. Please upload
-        an image with exactly ${requiredWidth}×${requiredHeight} pixels.`,
+        sizeValidationError: intl.formatMessage(messages['image-upload.size-error'], {
+          requiredWidth: requiredWidth,
+          requiredHeight: requiredHeight
+        }),
       });
     } else {
       this.setState({ sizeValidationError: '' });
@@ -120,6 +129,7 @@ class ImageUpload extends React.Component {
 }
 
 ImageUpload.propTypes = {
+  intl: intlShape.isRequired,
   className: PropTypes.string,
   disabled: PropTypes.bool,
   id: PropTypes.string.isRequired,
@@ -144,4 +154,4 @@ ImageUpload.defaultProps = {
   disabled: false,
 };
 
-export default ImageUpload;
+export default (injectIntl(ImageUpload));
