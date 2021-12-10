@@ -294,6 +294,15 @@ class CollapsibleCourseRun extends React.Component {
                 helpText={courseDateEditHelp}
                 disabled
               />
+              <Field
+                name={`${courseId}.upgrade_deadline_override`}
+                type="date"
+                component={DateTimeField}
+                dateLabel="Upgrade deadline override date"
+                timeLabel={`Upgrade deadline override time (${localTimeZone})`}
+                helpText={courseDateEditHelp}
+                disabled={!administrator || disabled}
+              />
             </div>
           )
           // date inputs for all browsers besides safari
@@ -338,6 +347,15 @@ class CollapsibleCourseRun extends React.Component {
                 timeLabel={intl.formatMessage(messages['course-run.edit.form.end-time.label'], {localTimeZone: localTimeZone})}
                 helpText={courseDateEditHelp}
                 disabled
+              />
+              <Field
+                name={`${courseId}.upgrade_deadline_override`}
+                type="date"
+                component={DateTimeField}
+                dateLabel="Upgrade deadline override date"
+                timeLabel={`Upgrade deadline override time (${localTimeZone})`}
+                helpText={courseDateEditHelp}
+                disabled={!administrator || disabled}
               />
             </div>
           )}
