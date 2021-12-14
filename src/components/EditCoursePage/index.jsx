@@ -290,11 +290,14 @@ class EditCoursePage extends React.Component {
    //ПОдготовка и сохранение документов курса
     let courseRunDocTypes = {};
     modifiedCourseRuns.forEach(element => {
+      console.log('DocTypeApiService -> element', element)
       if (element.doc_type){
+        const filtredDocType = element.doc_type.filter(value => Object.keys(value).length !== 0)
+        console.log('DocTypeApiService -> filtredDocType', filtredDocType)
         this.props.handleEditCourseRunDocType({
           courseId: uuid, 
           coursRunKey: element.key, 
-          docTypes: element.doc_type,
+          docTypes: filtredDocType,
         });
         courseRunDocTypes[element.key] = element.doc_type;
       }

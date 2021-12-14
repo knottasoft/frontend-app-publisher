@@ -23,7 +23,14 @@ function docType(state = initialState, action) {
         case REQUEST_DOCTYPE_SUCCESS: 
             return {
                 ...state,
-                docTypes: action.data,
+                docTypes: [ 
+                    {
+                        "label": "Выберите тип документа",
+                        "value": "",
+                        "description": null
+                    }, 
+                    ...action.data
+                ],
                 error: null,
             };
 

@@ -28,7 +28,7 @@ class DocTypeApiService {
             "course_run_key": coursRunKey,
             "doc_types": docTypes.join(';')
         }
-        console.log("DocTypeApiService -> editCourseRunDocType", data)
+        console.log("DocTypeApiService -> editCourseRunDocType", data, docTypes)
         return api.post(`/courseRunDocTypes/`,data)
     }
 }
