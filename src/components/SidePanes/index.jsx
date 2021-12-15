@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import UsersPane from './UsersPane';
-import CommentsPane from './CommentsPane';
+//import CommentsPane from './CommentsPane';
 
 function SidePanes(props) {
   return (
@@ -17,12 +17,12 @@ function SidePanes(props) {
         organizationUsers={props.organizationUsers}
         removeCourseEditor={props.removeCourseEditor}
       />
-      <CommentsPane
-        addComment={props.addComment}
-        comments={props.comments}
-        fetchComments={props.fetchComments}
-        courseUuid={props.courseUuid}
-      />
+      {/*<CommentsPane*/}
+      {/*  addComment={props.addComment}*/}
+      {/*  comments={props.comments}*/}
+      {/*  fetchComments={props.fetchComments}*/}
+      {/*  courseUuid={props.courseUuid}*/}
+      {/*/>*/}
     </div>
   );
 }

@@ -295,8 +295,8 @@ class EditCoursePage extends React.Component {
         const filtredDocType = element.doc_type.filter(value => Object.keys(value).length !== 0)
         console.log('DocTypeApiService -> filtredDocType', filtredDocType)
         this.props.handleEditCourseRunDocType({
-          courseId: uuid, 
-          coursRunKey: element.key, 
+          courseId: uuid,
+          coursRunKey: element.key,
           docTypes: filtredDocType,
         });
         courseRunDocTypes[element.key] = element.doc_type;
@@ -636,9 +636,9 @@ class EditCoursePage extends React.Component {
             organizationRoles={this.props.organizationRoles}
             organizationUsers={this.props.organizationUsers}
             removeCourseEditor={editable && this.props.removeCourseEditor}
-            addComment={this.props.addComment}
-            comments={this.props.comments}
-            fetchComments={this.props.fetchComments}
+            // addComment={this.props.addComment}
+            // comments={this.props.comments}
+            // fetchComments={this.props.fetchComments}
           />
           )}
         >
