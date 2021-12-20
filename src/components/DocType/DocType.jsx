@@ -102,6 +102,7 @@ DocType.propTypes = {
 DocType.defaultProps = {
     disabled: false,
     extraInput: {},
+    docTypes: [],
   };
 
 export default (injectIntl(DocType));
