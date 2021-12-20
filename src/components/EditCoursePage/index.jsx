@@ -640,9 +640,9 @@ class EditCoursePage extends React.Component {
             organizationRoles={this.props.organizationRoles}
             organizationUsers={this.props.organizationUsers}
             removeCourseEditor={editable && this.props.removeCourseEditor}
-            addComment={this.props.addComment}
-            comments={this.props.comments}
-            fetchComments={this.props.fetchComments}
+            // addComment={this.props.addComment}
+            // comments={this.props.comments}
+            // fetchComments={this.props.fetchComments}
           />
           )}
         >
