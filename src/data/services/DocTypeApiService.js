@@ -13,8 +13,9 @@ class DocTypeApiService {
         
         let result = {}
         data.reduce(function(res, value) {
-
-            res [value.course_run_key] = value.doc_types.split(';')
+            if (value.doc_types) {
+                res [value.course_run_key] = value.doc_types.split(';')
+            }
 
             return res;
         }, result)
