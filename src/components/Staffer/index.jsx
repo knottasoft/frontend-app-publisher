@@ -29,7 +29,7 @@ export const Staffer = ({
         <Icon
           id={`delete-icon-${item.uuid}`}
           className="fa fa-trash fa-fw text-danger"
-          screenReaderText={`Remove ${getStafferName(item)}`}
+          screenReaderText={`Удалить ${getStafferName(item)}`}
         />
       </button>
       { !disabled
@@ -43,8 +43,8 @@ export const Staffer = ({
           <Icon
             id={`edit-icon-${item.uuid}`}
             className="fa fa-edit fa-fw"
-            screenReaderText={`Edit ${getStafferName(item)}`}
-            title="Edit"
+            screenReaderText={`Редактировать ${getStafferName(item)}`}
+            title="Редактировать"
           />
         </Link>
         )}

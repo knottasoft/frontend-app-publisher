@@ -121,8 +121,8 @@ class TableComponent extends React.Component {
     const { error } = this.props;
     const isForbidden = error.response && error.response.status === 403;
     const message = isForbidden
-      ? ['You do not yet have access to Publisher. Please contact your project coordinator to get access.']
-      : ['Unable to load data: '].concat(getErrorMessages(this.props.error));
+      ? ['У вас еще нет доступа к Publisher. Пожалуйста, свяжитесь с координатором проекта для получения доступа.']
+      : ['Невозможно загрузить данные: '].concat(getErrorMessages(this.props.error));
     return (
       <StatusAlert
         alertType="danger"
@@ -137,7 +137,7 @@ class TableComponent extends React.Component {
       <StatusAlert
         alertType="warning"
         iconClassNames={['fa', 'fa-exclamation-circle']}
-        message="There are no results."
+        message="Нет результатов."
       />
     );
   }

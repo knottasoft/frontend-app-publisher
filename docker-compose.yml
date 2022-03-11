@@ -1,0 +1,38 @@
+version: "2.1"
+services:
+    publisher:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: publisher
+        volumes:
+            - .:/publisher
+            - container_only_node_modules:/publisher/node_modules
+        ports:
+            - "18400:18400"
+            - "9229:9229"
+
+    caddy:
+        container_name: caddy
+        image: docker.io/caddy:2.3.0
+        restart: unless-stopped
+        ports:
+            - 80:80
+            #- 443:443
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile:ro
+            - caddy-data:/data
+
+    nginx:
+        container_name: nginx
+        image: docker.io/nginx:1.19.9
+        restart: unless-stopped
+        volumes:
+            - ./nginx-dev.conf:/etc/nginx/conf.d/nginx-dev.conf:ro
+        depends_on:
+            - publisher
+
+volumes:
+    caddy-data:
+        external: false
+    container_only_node_modules:

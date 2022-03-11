@@ -29,7 +29,7 @@ const Header = ({ darkModeOn, location, toggleDarkMode, intl }) => {
         <div className="row align-items-center">
           <div className="col-auto justify-content-start">
             <Hyperlink destination={process.env.STUDIO_BASE_URL}>
-              <img src={process.env.LOGO_URL} alt="edX logo" height="30" width="60" />
+              <img src={process.env.LOGO_URL} alt="Лого ЦОПП" height="30" width="60" />
             </Hyperlink>
           </div>
           <div className="col">
@@ -39,7 +39,7 @@ const Header = ({ darkModeOn, location, toggleDarkMode, intl }) => {
             && (
             <div className="col-auto justify-content-end">
               <button type="button" className="btn btn-primary" onClick={toggleDarkMode}>
-                Switch to {darkModeOn ? 'light mode' : 'dark mode'}
+                Переключиться на {darkModeOn ? 'светлый режим' : 'тёмный режим'}
               </button>
             </div>
             )}

@@ -108,7 +108,7 @@ const getErrorMessages = (error) => {
   if (typeof error === 'string') {
     return [addPeriodToString(error)];
   }
-  return ['Unknown error.'];
+  return ['Неизвестная ошибка.'];
 };
 
 // Compares two price objects (objects like {verified: '20', credit: '50.5'})
@@ -198,7 +198,7 @@ const parseCourseTypeOptions = (typeOptions) => {
   const courseRunTypeOptions = {};
   const runTypeModes = {};
   const priceLabels = {};
-  const initialSelect = [{ label: 'Select enrollment track', value: '' }];
+  const initialSelect = [{ label: 'Выберите направление зачисления', value: '' }];
   const courseTypeOptions = initialSelect.concat(typeOptions.map((type) => {
     courseTypes[type.uuid] = type;
 

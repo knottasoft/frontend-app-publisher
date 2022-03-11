@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import ButtonToolbar from '../ButtonToolbar';
 import FieldLabel from '../FieldLabel';
 import ActionButton from '../ActionButton';
@@ -19,8 +20,7 @@ import {
 } from '../../utils';
 import { DATE_INPUT_PATTERN } from '../../data/constants';
 
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import messages from './CreateCourseRun.messages.js';
+import messages from './CreateCourseRun.messages';
 
 const BaseCreateCourseRunForm = ({
   intl,
@@ -64,8 +64,8 @@ const BaseCreateCourseRunForm = ({
               helpText={(
                 <div>
                   <p>
-                    Select a run to copy as the starting point for your new studio instance.
-                    The newest run is listed first.
+                      Выберите запуск для копирования в качестве отправной точки для нового экземпляра студии.
+                      Самый новый запуск будет указан первым.
                   </p>
                 </div>
               )}

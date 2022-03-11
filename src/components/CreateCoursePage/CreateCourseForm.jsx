@@ -140,12 +140,12 @@ class BaseCreateCourseForm extends React.Component {
                 helpText={(
                   <div>
                     <p>
-                      Maximum 10 characters. Characters can be letters, numbers, periods,
-                      underscores, or hyphens.
+                      Максимум 10 символов. Символы могут быть буквами, цифрами, точками,
+                      подчеркивания или дефиса.
                     </p>
                     <p>
-                      If a course consists of several modules, the course number can have an
-                      ending such as .1x or .2x.
+                      Если курс состоит из нескольких модулей, номер курса может иметь
+                      окончание, например .1x или .2x.
                     </p>
                     <p>
                       <a
@@ -153,10 +153,10 @@ class BaseCreateCourseForm extends React.Component {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Learn more.
+                        Подробнее.
                       </a>
                     </p>
-                    <p><b>Examples:</b></p>
+                    <p><b>Примеры:</b></p>
                     <ol>
                       <li>CS002x</li>
                       <li>BIO1.1x, BIO1.2x</li>
@@ -197,7 +197,7 @@ class BaseCreateCourseForm extends React.Component {
               label={(
                 <FieldLabel
                   id="courseRunKey-label"
-                  text="Run Key"
+                  text="Ключ запуска"
                   helpText={keyHelp}
                   optional
                 />

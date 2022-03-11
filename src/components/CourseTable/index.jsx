@@ -7,6 +7,7 @@ import qs from 'query-string';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { SearchField } from '@edx/paragon';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import TableContainer from '../../containers/TableContainer';
 import ButtonToolbar from '../ButtonToolbar';
 import PageContainer from '../PageContainer';
@@ -14,8 +15,7 @@ import { formatDate, getPageOptionsFromUrl, updateUrl } from '../../utils';
 import Pill from '../Pill';
 import { PUBLISHED, REVIEWED } from '../../data/constants';
 
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import courseTableMessages from './CourseTable.messages.js';
+import courseTableMessages from './CourseTable.messages';
 
 const dot = color => ({
   alignItems: 'center',
@@ -33,7 +33,7 @@ const dot = color => ({
 });
 
 class CourseTable extends React.Component {
-  constructor(props,context) {
+  constructor(props, context) {
     super(props);
     this.state = {
       filterGroups: [
@@ -145,7 +145,7 @@ class CourseTable extends React.Component {
                 ? [] : filters)}
               isMulti
               maxMenuHeight="30vh"
-              placeholder={this.props.intl.formatMessage(courseTableMessages['filters'])}
+              placeholder={this.props.intl.formatMessage(courseTableMessages.filters)}
               styles={
                 {
                   option: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
@@ -171,7 +171,7 @@ class CourseTable extends React.Component {
               onSubmit={(filter) => {
                 updateUrl({ filter, page: 1 });
               }}
-              placeholder={this.props.intl.formatMessage(courseTableMessages['search'])}
+              placeholder={this.props.intl.formatMessage(courseTableMessages.search)}
             />
           </div>
         </div>

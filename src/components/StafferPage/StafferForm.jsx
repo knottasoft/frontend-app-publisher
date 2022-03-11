@@ -40,10 +40,10 @@ const BaseStafferForm = ({
               text={intl.formatMessage(messages['staffer.form.image.label'])}
               helpText={(
                 <div>
-                  <p>Image Requirements:</p>
+                  <p>Требования к изображению:</p>
                   <ul>
-                    <li>The image dimensions must be 110×110.</li>
-                    <li>The image size must be less than 256KB.</li>
+                    <li>Размеры изображения должны быть 110×110.</li>
+                    <li>Размер изображения должен быть менее 256 КБ.</li>
                   </ul>
                 </div>
               )}
@@ -89,12 +89,12 @@ const BaseStafferForm = ({
               text={intl.formatMessage(messages['staffer.form.position.title'])}
               helpText={(
                 <div>
-                  <p>Instructor&apos;s title at your organization.</p>
-                  <p><b>Examples:</b></p>
+                  <p>Должность инструктора в вашей организации.</p>
+                  <p><b>Примеры:</b></p>
                   <ul>
-                    <li>Professor</li>
-                    <li>Content Developer</li>
-                    <li>Director</li>
+                    <li>Профессор</li>
+                    <li>Разработчик контента</li>
+                    <li>Директор</li>
                   </ul>
                 </div>
               )}

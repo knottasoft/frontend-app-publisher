@@ -10,7 +10,7 @@ function User(props) {
         && (
         <RemoveButton
           className="align-text-bottom ml-1"
-          label="Remove"
+          label="Удалить"
           targetFieldNumber={props.userId}
           onRemove={props.onRemove}
         />

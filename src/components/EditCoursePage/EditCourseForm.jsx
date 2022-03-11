@@ -238,7 +238,7 @@ export class BaseEditCourseForm extends React.Component {
       && parseOptions(courseRunOptionsData.content_language.choices));
     const programOptions = (courseRunOptionsData
       && parseOptions(courseRunOptionsData.expected_program_type.choices));
-    
+
     const {
       data: {
         results: allResults,
@@ -268,7 +268,7 @@ export class BaseEditCourseForm extends React.Component {
     languageOptions.unshift({ label: '--', value: '' });
     levelTypeOptions.unshift({ label: '--', value: '' });
     subjectOptions.unshift({ label: '--', value: '' });
-    programOptions.unshift({ label: '--', value: '' }); 
+    programOptions.unshift({ label: '--', value: '' });
 
     return (
       <div className="edit-course-form">
@@ -348,12 +348,10 @@ export class BaseEditCourseForm extends React.Component {
               helpText={(
                 <div>
                   <p>
-                    Course teams are responsible for securing any necessary permissions for use of third-party logos.
+                    Команды курсов несут ответственность за получение всех необходимых разрешений на использование логотипов третьих лиц.
                   </p>
                   <p>
-                    To elaborate on the support, please include additional information in the “About this course”
-                    section. Please avoid including statements that the course is jointly offered or that the 3rd party
-                    is collaborating or partnering with edX.
+                    Чтобы подробнее рассказать о поддержке, включите дополнительную информацию в раздел "Об этом курсе". Пожалуйста, избегайте включения заявлений о том, что курс предлагается совместно или что третья сторона сотрудничает или партнерствует с ЦОПП СК.
                   </p>
                 </div>
               )}
@@ -382,17 +380,15 @@ export class BaseEditCourseForm extends React.Component {
                   helpText={(
                     <div>
                       <p>
-                        An eye-catching, colorful image that captures the essence of your course.
+                        Привлекательное, красочное изображение, отражающее суть вашего курса.
                       </p>
                       <ul>
-                        <li>New course images must be 1134×675 pixels in size.</li>
-                        <li>The image must be a JPEG or PNG file.</li>
-                        <li>Each course must have a unique image.</li>
-                        <li>The image cannot include text or headlines.</li>
+                        <li>Новые изображения курса должны иметь размер 1134×675 пикселей.</li>
+                        <li>Изображение должно быть файлом в формате JPEG или PNG.</li>
+                        <li>Каждый курс должен иметь уникальное изображение.</li>
+                        <li>Изображение не может содержать текст или заголовки.</li>
                         <li>
-                          You must have permission to use the image. Possible image sources
-                          include Flickr creative commons, Stock Vault, Stock XCHNG, and iStock
-                          Photo.
+                          У вас должно быть разрешение на использование изображения. Возможные источники изображений являются Flickr creative commons, Stock Vault, Stock XCHNG и iStock Фото.
                         </li>
                       </ul>
                       <p>
@@ -401,7 +397,7 @@ export class BaseEditCourseForm extends React.Component {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          Learn more.
+                          Подронее.
                         </a>
                       </p>
                     </div>
@@ -430,13 +426,13 @@ export class BaseEditCourseForm extends React.Component {
                       text={this.props.intl.formatMessage(messages['course.edit.form.short_description.text'])}
                       helpText={(
                         <div>
-                          <p>An effective short description:</p>
+                          <p>Эффективное краткое описание:</p>
                           <ul>
-                            <li>Contains 25–50 words.</li>
-                            <li>Functions as a tagline.</li>
-                            <li>Conveys compelling reasons to take the course.</li>
-                            <li>Follows SEO guidelines.</li>
-                            <li>Targets a global audience.</li>
+                            <li>Содержит 25-50 слов.</li>
+                            <li>Выполняет функцию теглайна.</li>
+                            <li>Предоставляет убедительные причины для прохождения курса.</li>
+                            <li>Соблюдает рекомендации по SEO.</li>
+                            <li>Ориентирован на глобальную аудиторию.</li>
                           </ul>
                           <p>
                             <a
@@ -444,13 +440,12 @@ export class BaseEditCourseForm extends React.Component {
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              Learn more.
+                              Подробнее.
                             </a>
                           </p>
-                          <p><b>Example:</b></p>
+                          <p><b>Пример:</b></p>
                           <p>
-                            The first MOOC to teach positive psychology. Learn science-based
-                            principles and practices for a happy, meaningful life.
+                            Первый МООК для обучения позитивной психологии. Изучите научно обоснованные принципы и практики для счастливой, наполненной смыслом жизни.
                           </p>
                         </div>
                       )}
@@ -470,17 +465,16 @@ export class BaseEditCourseForm extends React.Component {
                       text={this.props.intl.formatMessage(messages['course.edit.form.long_description.text'])}
                       helpText={(
                         <div>
-                          <p>An effective long description:</p>
+                          <p>Эффективное длинное описание:</p>
                           <ul>
-                            <li>Contains 150–300 words.</li>
-                            <li>Is easy to skim.</li>
-                            <li>Uses bullet points instead of dense text paragraphs.</li>
-                            <li>Follows SEO guidelines.</li>
-                            <li>Targets a global audience.</li>
+                            <li>Содержит 150-300 слов.</li>
+                            <li>Легко читается.</li>
+                            <li>Использование маркированных пунктов вместо плотных текстовых абзацев.</li>
+                            <li>Следует рекомендациям SEO.</li>
+                            <li>Нацеленность на глобальную аудиторию.</li>
                           </ul>
                           <p>
-                            The first four lines are visible when the About page opens. Learners can
-                            select “See More” to view the full description.
+                            Первые четыре строки видны при открытии страницы About. Учащиеся могут выбрать "Посмотреть больше", чтобы просмотреть полное описание.
                           </p>
                           <p>
                             <a
@@ -509,14 +503,14 @@ export class BaseEditCourseForm extends React.Component {
                       text={this.props.intl.formatMessage(messages['course.edit.form.outcome.label'])}
                       helpText={(
                         <div>
-                          <p>The skills and knowledge learners will acquire in this course.</p>
-                          <p>Format each item as a bullet with four to ten words.</p>
-                          <p><b>Example:</b></p>
+                          <p>Навыки и знания, которые учащиеся приобретут в этом курсе.</p>
+                          <p>Оформите каждый пункт в виде пункта, состоящего из четырех-десяти слов.</p>
+                          <p><b>Пример:</b></p>
                           <ul>
-                            <li>Basic R Programming</li>
-                            <li>An applied understanding of linear and logistic regression</li>
-                            <li>Application of text analytics</li>
-                            <li>Linear and integer optimization</li>
+                            <li>Основы программирования на R</li>
+                            <li>Прикладное понимание линейной и логистической регрессии</li>
+                            <li>Применение текстового анализа</li>
+                            <li>Линейная и целочисленная оптимизация</li>
                           </ul>
                           <p>
                             <a
@@ -524,7 +518,7 @@ export class BaseEditCourseForm extends React.Component {
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              Learn more.
+                              Подробнее.
                             </a>
                           </p>
                         </div>
@@ -546,15 +540,14 @@ export class BaseEditCourseForm extends React.Component {
                       helpText={(
                         <div>
                           <p>
-                            A review of content covered in your course, organized by week or module.
+                            Обзор содержания, изучаемого в вашем курсе, организованный по неделям или модулям.
                           </p>
                           <ul>
-                            <li>Focus on topics and content.</li>
+                            <li>Сосредоточьтесь на темах и содержании.</li>
                             <li>
-                              Do not include detailed information about course logistics, such as
-                              grading, communication policies, and reading lists.
+                              Не включайте подробную информацию о логистике курса, такую как выставление оценок, правила общения и списки литературы.
                             </li>
-                            <li>Format items as either paragraphs or a bulleted list.</li>
+                            <li>Отформатируйте элементы в виде абзацев или маркированного списка.</li>
                           </ul>
                           <p>
                             <a
@@ -562,24 +555,24 @@ export class BaseEditCourseForm extends React.Component {
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              Learn more.
+                              Подробнее.
                             </a>
                           </p>
-                          <p><b>Example:</b></p>
+                          <p><b>Пример:</b></p>
                           <ul>
                             <li>
-                              <p>Week 1: From Calculator to Computer</p>
+                              <p>Неделя 1: От калькулятора к компьютеру</p>
                               <p>
-                                Introduction to basic programming concepts, such as values and
-                                expressions, as well as making decisions when implementing algorithms
-                                and developing programs.
+                                Введение в основные концепции программирования, такие как значения и
+                                выражения, а также принятие решений при реализации алгоритмов
+                                и разработке программ.
                               </p>
                             </li>
                             <li>
-                              <p>Week 2: State Transformation</p>
+                              <p>Неделя 2: Преобразование состояний</p>
                               <p>
-                                Introduction to state transformation, including representation of data
-                                and programs as well as conditional repetition.
+                                Введение в преобразование состояний, включая представление данных
+                                и программ, а также условное повторение.
                               </p>
                             </li>
                           </ul>
@@ -603,8 +596,8 @@ export class BaseEditCourseForm extends React.Component {
                       helpText={(
                         <div>
                           <p>
-                            Specific knowledge learners must have to be successful in the course.
-                            If the course has no prerequisites, enter “None”.
+                            Специфические знания, которыми должны обладать учащиеся для успешного прохождения курса.
+                            Если у курса нет предпосылок, введите "None".
                           </p>
                           <p>
                             <a
@@ -612,17 +605,17 @@ export class BaseEditCourseForm extends React.Component {
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              Learn more.
+                              Подробнее.
                             </a>
                           </p>
-                          <p><b>Examples:</b></p>
+                          <p><b>Примеры:</b></p>
                           <ul>
                             <li>
-                              Secondary school (high school) algebra;
-                              basic mathematics concepts
+                              Алгебра в средней школе (старших классах);
+                              основные математические понятия
                             </li>
-                            <li>Graduate-level understanding of Keynesian economics</li>
-                            <li>Basic algebra</li>
+                            <li>Понимание кейнсианской экономики на уровне выпускника вуза</li>
+                            <li>Основы алгебры</li>
                           </ul>
                         </div>
                     )}
@@ -644,10 +637,9 @@ export class BaseEditCourseForm extends React.Component {
                       helpText={(
                         <div>
                           <p>
-                            A quote from a learner in the course, demonstrating the value of taking
-                            the course.
+                            Цитата одного из слушателей курса, демонстрирующая ценность прохождения курса.
                           </p>
-                          <p>Should be no more than 25–50 words in length.</p>
+                          <p>Должно быть не более 25-50 слов.</p>
                           <p>
                             <a
                               href="https://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/set_up_course/planning_course_information/additional_course_information.html#learner-testimonial-guidelines"
@@ -657,11 +649,11 @@ export class BaseEditCourseForm extends React.Component {
                               Learn more.
                             </a>
                           </p>
-                          <p><b>Example:</b></p>
+                          <p><b>Пример:</b></p>
                           <p>
-                            “Brilliant course! It’s definitely the best introduction to electronics
-                            in the world! Interesting material, clean explanations, well prepared
-                            quizzes, challenging homework, and fun labs.” – Previous Student
+                            "Блестящий курс! Это определенно лучшее введение в электронику в мире! Интересный материал,
+                            понятные объяснения, хорошо подготовленные контрольные работы, сложные домашние задания и
+                            веселые лабораторные." - Предыдущий студент
                           </p>
                         </div>
                     )}
@@ -682,24 +674,24 @@ export class BaseEditCourseForm extends React.Component {
                       text={this.props.intl.formatMessage(messages['course.edit.form.faq.label'])}
                       helpText={(
                         <div>
-                          <p>Any frequently asked questions and the answers to those questions.</p>
+                          <p>Часто задаваемые вопросы и ответы на них.</p>
                           <p>
                             <a
                               href="https://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/set_up_course/planning_course_information/additional_course_information.html#faq-guidelines"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              Learn more.
+                              Подробнее.
                             </a>
                           </p>
-                          <p><b>Example:</b></p>
-                          <strong>Do I need to know any programming languages before I start?</strong>
+                          <p><b>Пример:</b></p>
+                          <strong>Нужно ли мне знать какие-либо языки программирования до начала работы?</strong>
                           <p>
-                            No, this course is designed for beginners.
+                            Нет, этот курс предназначен для начинающих.
                           </p>
-                          <strong>What version of Swift will I be learning?</strong>
+                          <strong>Какую версию Swift я буду изучать?</strong>
                           <p>
-                            Swift version 4.
+                            Swift версии 4.
                           </p>
                         </div>
                     )}
@@ -726,7 +718,7 @@ export class BaseEditCourseForm extends React.Component {
                       text={this.props.intl.formatMessage(messages['course.edit.form.additional-info.label'])}
                       helpText={(
                         <div>
-                          <p>Any additional information to be provided to learners.</p>
+                          <p>Любая дополнительная информация, которая должна быть предоставлена учащимся.</p>
                         </div>
                       )}
                       optional
@@ -751,24 +743,23 @@ export class BaseEditCourseForm extends React.Component {
                       helpText={(
                         <div>
                           <p>
-                            The About video should excite and entice potential students to take your
-                            course. Think of it as a movie trailer or TV show promotion. The video
-                            should be compelling, and exhibit the instructor’s personality.
+                            Видеоролик о курсе должен заинтересовать и увлечь потенциальных студентов в прохождении
+                            вашего курс. Думайте об этом как о трейлере к фильму или рекламе телепередачи. Видео должно
+                            быть убедительным и демонстрировать индивидуальность преподавателя.
                           </p>
                           <p>
-                            The ideal length is 30–90 seconds (learners typically watch an average
-                            of 30 seconds).
+                            Идеальная продолжительность - 30-90 секунд (учащиеся обычно смотрят в среднем 30 секунд).
                           </p>
                           <p>
-                            The About video should be produced and edited, using elements such as
-                            graphics and stock footage.
+                            TВидеоролик должен быть подготовлен и смонтирован с использованием таких элементов,
+                            как графика и стоковые кадры.
                           </p>
-                          <p>The About video should answer these key questions.</p>
+                          <p>Видеоролик должен отвечать на эти ключевые вопросы.</p>
                           <ul>
-                            <li>Why should a learner register?</li>
-                            <li>What topics and concepts are covered?</li>
-                            <li>Who is teaching the course?</li>
-                            <li>What institution is delivering the course?</li>
+                            <li>Почему учащийся должен зарегистрироваться?</li>
+                            <li>Какие темы и концепции рассматриваются?</li>
+                            <li>Кто преподает курс?</li>
+                            <li>Какое учебное заведение проводит курс?</li>
                           </ul>
                           <p>
                             <a
@@ -776,19 +767,19 @@ export class BaseEditCourseForm extends React.Component {
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              Learn more.
+                              Подробнее.
                             </a>
                           </p>
                           <p>
-                            <span>Visit</span>
+                            <span>Посетите</span>
                             <a
                               href="www.youtube.com/user/EdXOnline"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              edX’s YouTube channel
+                              Канал edX на YouTube
                             </a>
-                            <span>for examples of other About videos.</span>
+                            <span>для примера других видеороликов.</span>
                           </p>
                         </div>
                       )}
@@ -814,20 +805,20 @@ export class BaseEditCourseForm extends React.Component {
                   helpText={(
                     <div>
                       <dl>
-                        <dt>Introductory</dt>
+                        <dt>Вводный курс</dt>
                         <dd>
-                          No prerequisites; a learner who has completed some or all secondary
-                          school could complete the course.
+                          Без предварительных условий; учащийся, закончивший частично или полностью среднюю школу,
+                          может пройти курс
                         </dd>
-                        <dt>Intermediate</dt>
+                        <dt>Средний</dt>
                         <dd>
-                          Basic prerequisites; learners need to complete secondary school or some
-                          university courses.
+                          Основные требования; учащиеся должны закончить среднюю школу или некоторые
+                          университетские курсы.
                         </dd>
-                        <dt>Advanced</dt>
+                        <dt>Продвинутый</dt>
                         <dd>
-                          Significant prerequisites; the course is geared to third or fourth year
-                          university students or master’s degree students.
+                          Значительные предварительные требования; курс предназначен для студентов третьего или
+                          четвертого курса университета или магистрантов.
                         </dd>
                       </dl>
                     </div>
@@ -848,10 +839,10 @@ export class BaseEditCourseForm extends React.Component {
                   text={this.props.intl.formatMessage(messages['course.edit.form.subject1.label'])}
                   helpText={(
                     <div>
-                      <p>The subject of the course.</p>
+                      <p>Предмет курса.</p>
                       <p>
-                        You can select up to two subjects in addition to the primary subject.
-                        Only the primary subject appears on the About page.
+                        Вы можете выбрать до двух тем в дополнение к основной теме.
+                        На странице "О курсе" отображается только основная тема.
                       </p>
                       <p>
                         <a
@@ -859,7 +850,7 @@ export class BaseEditCourseForm extends React.Component {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          Learn more.
+                          Подробнее.
                         </a>
                       </p>
                     </div>
@@ -911,10 +902,7 @@ export class BaseEditCourseForm extends React.Component {
                   helpText={(
                     <div>
                       <p>
-                        edX partners with Emsi, the labor market data company, to automatically tag your courses with
-                        in-demand skills from their library of 30,000 skills based on the content in your about page.
-                        If you want to experiment with what skills show up, you can edit and submit changes to your
-                        about page description.
+                        edX сотрудничает с Emsi, компанией, предоставляющей данные о рынке труда, чтобы автоматически помечать ваши курсы востребованными навыками из их библиотеки, насчитывающей 30 000 навыков, на основе содержания вашей информационной страницы. Если вы хотите поэкспериментировать с тем, какие навыки будут отображаться, вы можете отредактировать и отправить изменения в описание вашей страницы.
                       </p>
                     </div>
                   )}

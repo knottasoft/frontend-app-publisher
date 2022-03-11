@@ -32,7 +32,7 @@ export const Collaborator = ({
         <Icon
           id={`delete-icon-${uuid}`}
           className="fa fa-trash fa-fw text-danger"
-          screenReaderText={`Remove ${name}`}
+          screenReaderText={`Удалить ${name}`}
         />
       </button>
       { !disabled
@@ -53,8 +53,8 @@ export const Collaborator = ({
           <Icon
             id={`edit-icon-${uuid}`}
             className="fa fa-edit fa-fw"
-            screenReaderText={`Edit ${name}`}
-            title="Edit"
+            screenReaderText={`Редактировать ${name}`}
+            title="Редактировать"
           />
         </Link>
       )}

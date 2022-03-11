@@ -20,13 +20,13 @@ const PriceList = ({
         extraInput={{
           min: 1.00,
           step: 0.01,
-          max: 10000.00,
+          max: 10000000.00,
           ...extraInput,
         }}
         type="number"
         label={(
           <FieldLabel
-            text={`${priceLabels[seatType]} Price (USD)`}
+            text={`${priceLabels[seatType]} Цена (руб.)`}
             required
           />
 )}

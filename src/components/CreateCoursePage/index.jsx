@@ -11,7 +11,7 @@ import ConfirmationModal from '../ConfirmationModal';
 import { formatPriceData } from '../../utils';
 
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import createCourseMessages from './CreateCourse.messages.js';
+import createCourseMessages from './CreateCourse.messages';
 
 class CreateCoursePage extends React.Component {
   constructor(props) {

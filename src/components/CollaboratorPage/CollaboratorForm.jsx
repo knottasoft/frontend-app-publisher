@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import ActionButton from '../ActionButton';
 import ImageUpload from '../ImageUpload';
 import RenderInputTextField from '../RenderInputTextField';
@@ -10,8 +11,7 @@ import FieldLabel from '../FieldLabel';
 import ButtonToolbar from '../ButtonToolbar';
 import { basicValidate } from '../../utils/validation';
 
-import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import messages from './CollaboratorForm.messages.js';
+import messages from './CollaboratorForm.messages';
 
 const BaseCollaboratorForm = ({
   intl,
@@ -36,10 +36,10 @@ const BaseCollaboratorForm = ({
               text={intl.formatMessage(messages['collaborator.form.image.label'])}
               helpText={(
                 <div>
-                  <p>Image Requirements:</p>
+                  <p>Требования к изображению:</p>
                   <ul>
-                    <li>The image dimensions must be 200px × 100px.</li>
-                    <li>The image size must be less than 256KB.</li>
+                    <li>Размеры изображения должны быть 200px × 100px.</li>
+                    <li>Размер изображения должен быть менее 256 КБ.</li>
                   </ul>
                 </div>
               )}

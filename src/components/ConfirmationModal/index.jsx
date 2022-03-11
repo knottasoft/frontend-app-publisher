@@ -14,7 +14,7 @@ const ConfirmationModal = ({
     {...passThroughProps}
     title={title}
     body={body}
-    closeText="Cancel"
+    closeText="Отмена"
     buttons={[
       {
         label: buttonLabel,

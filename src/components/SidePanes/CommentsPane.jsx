@@ -102,7 +102,7 @@ class CommentsPane extends React.Component {
         {!showSpinner
         && (
         <div className="scroll-comments mb-1 overflow-auto border-top border-bottom border-light">
-          {!hasComments && !showSpinner && <div className="text-muted">No comments</div>}
+          {!hasComments && !showSpinner && <div className="text-muted">Нет комментариев</div>}
           {showComments && commentThread}
           {!!comments.error && (
           <StatusAlert
@@ -122,7 +122,7 @@ class CommentsPane extends React.Component {
             <div className="col align-center">
               <TextArea
                 name="leave-comment"
-                label={<FieldLabel text="Post a comment" />}
+                label={<FieldLabel text="Опубликовать комментарий" />}
                 value={this.state.newCommentBody}
                 onChange={v => this.handleUpdateCommentBody(v)}
               />
@@ -147,7 +147,7 @@ class CommentsPane extends React.Component {
               alertType="danger"
               onClose={this.dismissEmptyCommentAlert}
               dismissible
-              message="Comment cannot be blank."
+              message="Комментарий не может быть пустым."
             />
           </div>
           )}

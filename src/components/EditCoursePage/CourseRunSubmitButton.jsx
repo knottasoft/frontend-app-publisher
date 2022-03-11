@@ -9,7 +9,7 @@ import {
 } from '../../data/constants';
 
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
-import messages from './CourseRunSubmitButton.messages.js';
+import messages from './CourseRunSubmitButton.messages';
 
 class CourseRunSubmitButton extends React.Component {
   constructor(props) {

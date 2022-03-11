@@ -298,8 +298,8 @@ class CollapsibleCourseRun extends React.Component {
                 name={`${courseId}.upgrade_deadline_override`}
                 type="date"
                 component={DateTimeField}
-                dateLabel="Upgrade deadline override date"
-                timeLabel={`Upgrade deadline override time (${localTimeZone})`}
+                dateLabel="Дата крайнего срока обновления"
+                timeLabel={`Время крайнего срока обновления (${localTimeZone})`}
                 helpText={courseDateEditHelp}
                 disabled={!administrator || disabled}
               />
@@ -352,8 +352,8 @@ class CollapsibleCourseRun extends React.Component {
                 name={`${courseId}.upgrade_deadline_override`}
                 type="date"
                 component={DateTimeField}
-                dateLabel="Upgrade deadline override date"
-                timeLabel={`Upgrade deadline override time (${localTimeZone})`}
+                dateLabel="Дата крайнего срока обновления"
+                timeLabel={`Время крайнего срока обновления (${localTimeZone})`}
                 helpText={courseDateEditHelp}
                 disabled={!administrator || disabled}
               />
@@ -401,10 +401,10 @@ class CollapsibleCourseRun extends React.Component {
           className="mb-2"
           helpText={(
             <div>
-              <p>The primary instructor or instructors for the course.</p>
+              <p>Основной преподаватель или преподаватели курса.</p>
               <p>
-                The order that instructors are listed here is the same order they will be
-                displayed on course pages. You can drag and drop to reorder instructors.
+                Порядок, в котором преподаватели перечислены здесь, соответствует порядку, в котором они будут
+                отображаться на страницах курса. Для изменения порядка расположения преподавателей их можно перетаскивать.
               </p>
             </div>
           )}
@@ -434,9 +434,9 @@ class CollapsibleCourseRun extends React.Component {
             <div>
               <p>Список документов, которые студент должен предоставить для прохождения курса</p>
               <p>
-                В дополнительном блоке можно указать текстовое описание, 
+                В дополнительном блоке можно указать текстовое описание,
                 которое выведется студенту при попытке записи на этот курс.
-                Текстовое описание будет служить подсказкой для студента. 
+                Текстовое описание будет служить подсказкой для студента.
               </p>
             </div>
           )}
@@ -462,8 +462,8 @@ class CollapsibleCourseRun extends React.Component {
                   helpText={(
                     <div>
                       <p>
-                        The minimum number of hours per week the learner should expect to spend
-                        on the course.
+                        Минимальное количество часов в неделю, которые учащийся должен потратить на обучение.
+                        на курсе.
                       </p>
                     </div>
                   )}
@@ -490,8 +490,8 @@ class CollapsibleCourseRun extends React.Component {
                   helpText={(
                     <div>
                       <p>
-                        The maximum number of hours per week the learner should expect to spend
-                        on the course.
+                        Максимальное количество часов в неделю, которое учащийся должен потратить на обучение
+                        на курсе.
                       </p>
                     </div>
                   )}
@@ -518,8 +518,8 @@ class CollapsibleCourseRun extends React.Component {
               helpText={(
                 <div>
                   <p>
-                    The estimated number of weeks the learner should expect to spend on the course,
-                    rounded to the nearest whole number.
+                    Предполагаемое количество недель, которые учащийся должен провести на курсе,
+                    округленное до ближайшего целого числа.
                   </p>
                 </div>
               )}
@@ -566,8 +566,8 @@ class CollapsibleCourseRun extends React.Component {
               helpText={(
                 <div>
                   <p>
-                    If this Course Run will potentially be part of a Program, please set the
-                    expected program type here.
+                    Если данный курс будет потенциально частью программы, пожалуйста, укажите здесь
+                    ожидаемый тип программы.
                   </p>
                 </div>
               )}
@@ -588,8 +588,8 @@ class CollapsibleCourseRun extends React.Component {
               helpText={(
                 <div>
                   <p>
-                    If this Course Run will potentially be part of a Program, please set the
-                    expected program name here.
+                    Если данный курс будет потенциально частью программы, пожалуйста, укажите здесь
+                    предполагаемое название программы.
                   </p>
                 </div>
               )}
@@ -612,8 +612,7 @@ class CollapsibleCourseRun extends React.Component {
                 helpText={(
                   <div>
                     <p>
-                      Only fill in this field if you are planning to integrate with your
-                      Institution’s systems through edX registrar service.
+                      Заполните это поле только в том случае, если вы планируете интегрироваться с вашим системы вашего учебного заведения через службу регистратора edX.
                     </p>
                   </div>
                 )}
@@ -634,8 +633,7 @@ class CollapsibleCourseRun extends React.Component {
               helpText={(
                 <div>
                   <p>
-                    Course embargo status for OFAC is managed internally, please contact
-                    support with questions.
+                    Статус эмбарго курса для OFAC управляется изнутри, пожалуйста, обращайтесь в службу поддержки.
                   </p>
                 </div>
               )}

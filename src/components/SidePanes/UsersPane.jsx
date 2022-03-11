@@ -103,13 +103,13 @@ class UsersPane extends React.Component {
       && editorChoices.length > 0;
 
     return (
-      <Pane title="Users">
+      <Pane title="Пользователи">
         {showSpinner
           && <Icon className="fa fa-circle-o-notch fa-spin fa-fw" />}
         {showPCs
           && (
           <div className="mb-2">
-            <div className="font-weight-bold">Project Coordinators</div>
+            <div className="font-weight-bold">Координаторы проектов</div>
             {organizationRoles.data.map(role => (
               <User
                 key={role.id}
@@ -124,7 +124,7 @@ class UsersPane extends React.Component {
         {showEditors
           && (
           <div>
-            <div className="font-weight-bold">Course Editors</div>
+            <div className="font-weight-bold">Редакторы курса</div>
             {courseEditors.data.map(editor => (
               <User
                 key={editor.id}
@@ -138,7 +138,7 @@ class UsersPane extends React.Component {
             {showAddButton
               && (
               <button type="button" className="btn btn-link p-0 usersPane-startAdd" onClick={this.startAddingUser}>
-                <Icon className="fa fa-plus" /> {hasEditor ? 'Add editor' : 'Set editor'}
+                <Icon className="fa fa-plus" /> {hasEditor ? 'Добавить редактора' : 'Установить редактора'}
               </button>
               )}
             {addingUser
@@ -150,7 +150,7 @@ class UsersPane extends React.Component {
                   label={(
                     <FieldLabel
                       id="add_editor.label"
-                      text="Select an editor:"
+                      text="Выберите редактора:"
                     />
                   )}
                   options={

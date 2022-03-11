@@ -15,7 +15,7 @@ const LoadingSpinner = props => (
 );
 
 LoadingSpinner.defaultProps = {
-  message: 'Loading…',
+  message: 'Загрузка…',
 };
 
 LoadingSpinner.propTypes = {
